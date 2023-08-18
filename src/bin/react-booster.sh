@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 usage() { echo "Usage: $0 [-p] [-w]" 1>&2; exit 1; }
 
 while getopts "pw" o; do
@@ -20,7 +18,7 @@ while getopts "pw" o; do
 done
 shift $((OPTIND-1))
 
-SCRIPT="npx webpack -c $SCRIPT_DIR/../webpack.js"
+SCRIPT="npx webpack -c $( dirname $( realpath "${BASH_SOURCE[0]}" ) )/../webpack.js"
 
 if [ $PRODUCTION ]; then
    SCRIPT="$SCRIPT --mode production"
