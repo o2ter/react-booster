@@ -32,6 +32,7 @@ import { BootstrapRoute, ReactRoute } from '@o2ter/react-route';
 import application from '../common/run/application';
 import __SERVER__ from '__SERVER__';
 import __THEMES__ from '__THEMES__';
+import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
 const app = express();
 app.use(cookieParser());
@@ -52,16 +53,16 @@ try {
 
 app.use('/css/bootstrap', BootstrapRoute(__THEMES__, precompiled));
 
-for (const [name, { uri, APPLICATION }] of _.toPairs(__APPLICATIONS__)) {
-  const route = ReactRoute(application(APPLICATION), {
+for (const [name, path] of _.toPairs(__applications__)) {
+  const route = ReactRoute(application(__APPLICATIONS__[name]), {
     env: react_env,
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
   });
-  if (_.isEmpty(uri) || uri === '/') {
+  if (_.isEmpty(path) || path === '/') {
     app.use(route);
   } else {
-    app.use(uri, route);
+    app.use(path, route);
   }
 }
 

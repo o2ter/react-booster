@@ -1,7 +1,10 @@
 /* eslint no-var: 0 */
 
 const _ = require('lodash');
+const os = require('os');
+const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -9,8 +12,7 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BootstrapPlugin } = require('@o2ter/react-route/dist/webpack');
 
-const CWD = process.cwd();
-const serverConfig = require(path.resolve(CWD, 'server.config.js'));
+const serverConfig = require(path.resolve(process.cwd(), 'server.config.js'));
 
 module.exports = (env, argv) => {
 
@@ -131,11 +133,20 @@ module.exports = (env, argv) => {
     new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     new webpack.DefinePlugin({ __DEV__: JSON.stringify(!IS_PRODUCTION) }),
     new LoadablePlugin({ outputAsset: false }),
-    new Dotenv({ path: path.join(CWD, '.env') }),
+    new Dotenv({ path: path.join(process.cwd(), '.env') }),
     ...(config.webpackPlugins ?? []),
   ];
 
-  const themes = config.themes ? path.resolve(CWD, config.themes) : path.resolve(__dirname, './common/themes');
+  const themes = config.themes ? path.resolve(process.cwd(), config.themes) : path.resolve(__dirname, './common/themes');
+
+  const random = crypto.randomUUID();
+  const tempDir = fs.mkdtempSync(`${os.tmpdir()}${path.sep}`);
+  const applications = path.resolve(tempDir, `applications-${random}.js`);
+
+  fs.writeFileSync(applications, `
+    ${_.map(config.client, ({ entry }, name) => `import ${name} from '${path.resolve(process.cwd(), entry)}';`).join('\n')}
+    export { ${_.keys(config.client).join(',')} };
+  `);
 
   return [
     ..._.map(config.client, ({ entry }, name) => ({
@@ -148,7 +159,7 @@ module.exports = (env, argv) => {
         ...webpackConfiguration.resolve,
         alias: {
           ...webpackConfiguration.resolve.alias,
-          __APPLICATION__: path.resolve(CWD, entry),
+          __APPLICATION__: path.resolve(process.cwd(), entry),
         },
         fallback: {
           crypto: require.resolve('crypto-browserify'),
@@ -169,18 +180,12 @@ module.exports = (env, argv) => {
       plugins: [
         ...webpackPlugins,
         new webpack.DefinePlugin({
-          __APPLICATIONS__: `[${_.map(config.client, (x, k) => `{
-            uri: ${JSON.stringify(x.uri)},
-            APPLICATION: __APP$${k}__,
-          }`).join(',')}]`,
+          __applications__: JSON.stringify(_.mapValues(config.client, x => x.uri)),
         }),
         new BootstrapPlugin({
-          themes: path.relative(CWD, themes),
+          themes: path.relative(process.cwd(), themes),
           output: '../themes.json',
         }),
-        new webpack.ProvidePlugin(_.fromPairs(
-          _.map(config.client, ({ entry }, name) => ([`__APP$${name}__`, path.resolve(CWD, entry)]))
-        )),
       ],
       target: 'node',
       entry: {
@@ -190,8 +195,9 @@ module.exports = (env, argv) => {
         ...webpackConfiguration.resolve,
         alias: {
           ...webpackConfiguration.resolve.alias,
-          __SERVER__: path.resolve(CWD, config.serverEntry),
+          __SERVER__: path.resolve(process.cwd(), config.serverEntry),
           __THEMES__: themes,
+          __APPLICATIONS__: applications,
         },
       },
       module: {
