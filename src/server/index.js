@@ -43,7 +43,7 @@ const react_env = {
   BOOTSTRAP_BASE_URL: '/css/bootstrap',
 };
 
-__SERVER__.default(app, react_env);
+await __SERVER__.default(app, react_env);
 
 let precompiled = {};
 try {
