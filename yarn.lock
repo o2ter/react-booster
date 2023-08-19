@@ -1235,21 +1235,6 @@
     postcss "^8.4.24"
     sass "^1.63.2"
 
-"@o2ter/i18n@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@o2ter/i18n/-/i18n-0.0.10.tgz#5f966a518def93e10824dc8ed26f1c3641280562"
-  integrity sha512-V57ghWj/a+mNXxbkkcBEqPLBW9QbosYf9Oq4vMXm/4EUGet3FkKStIdlMOu7BQyRMyxFZK6dKjVvQCd7/qqC7g==
-  dependencies:
-    events ">=3.3.0"
-    lodash ">=4.17.21"
-
-"@o2ter/react-cms@^0.0.51":
-  version "0.0.51"
-  resolved "https://registry.yarnpkg.com/@o2ter/react-cms/-/react-cms-0.0.51.tgz#402d4548b815fb49321edbc70b13df71040aa2b9"
-  integrity sha512-YsIgWp3PsYnC0RfdLWYbsBM5EEvYgQ77gPvQYqa3uFqhijsrhhM5CxXVwcJ/lAFxfj2uBZYQVtaU8unsCmAJlA==
-  dependencies:
-    lodash ">=4.17.21"
-
 "@o2ter/react-route@^0.0.59":
   version "0.0.59"
   resolved "https://registry.yarnpkg.com/@o2ter/react-route/-/react-route-0.0.59.tgz#44dd27e1739e1b6ac1cbc1a20b153024343895b3"
@@ -1281,20 +1266,6 @@
     react-native-svg ">=13.7.0"
     react-native-vector-icons ">=9.2.0"
     react-router-dom ">=6.6.2"
-
-"@o2ter/valid.js@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@o2ter/valid.js/-/valid.js-1.0.2.tgz#f37ceb964a064e489a60a3748009e92bc32f9753"
-  integrity sha512-GbO9tylhBxMBx6vsKhPqNEgT/xIVPIsjvNCY11ypb13aAVkZM7pbCnWz97eq/xx2mqmRTvyUXzRbdBZIOy+xZg==
-  dependencies:
-    lodash ">=4.17.21"
-
-"@o2ter/wireframe@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@o2ter/wireframe/-/wireframe-0.0.5.tgz#1b3da5595e9602fa5f69c2679a5e5a4298a42204"
-  integrity sha512-Aticy/mKrAI6UWm0qq0bo6elRrZXbV4SU7KnpS17/zJtVag/HvHNCBFjsh0I9NKMXjhssbGoNzEdpnDRMS4pAw==
-  dependencies:
-    lodash ">=4.17.21"
 
 "@popperjs/core@^2.11.6":
   version "2.11.8"
@@ -2662,7 +2633,7 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-events@>=3.3.0, events@^3.2.0:
+events@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
@@ -4306,7 +4277,16 @@ sass-loader@^13.3.2:
   dependencies:
     neo-async "^2.6.2"
 
-sass@^1.63.2, sass@^1.66.0:
+sass@^1.63.2:
+  version "1.66.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.66.1.tgz#04b51c4671e4650aa393740e66a4e58b44d055b1"
+  integrity sha512-50c+zTsZOJVgFfTgwwEzkjA3/QACgdNsKueWPyAR0mRINIvLAStVQBbPg14iuqEQ74NPDbXzJARJ/O4SI1zftA==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
+sass@^1.66.0:
   version "1.66.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.66.0.tgz#74728eed49b0e490cd729c233e7f1c6ce356e638"
   integrity sha512-C3U+RgpAAlTXULZkWwzfysgbbBBo8IZudNAOJAVBLslFbIaZv4MBPkTqhuvpK4lqgdoFiWhnOGMoV4L1FyOBag==
@@ -4608,13 +4588,6 @@ styleq@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/styleq/-/styleq-0.1.3.tgz#8efb2892debd51ce7b31dc09c227ad920decab71"
   integrity sha512-3ZUifmCDCQanjeej1f6kyl/BeP/Vae5EYkQ9iJfUm/QwZvlgnZzyflqAsAWYURdtea8Vkvswu2GrC57h3qffcA==
-
-sugax@^1.0.83:
-  version "1.0.83"
-  resolved "https://registry.yarnpkg.com/sugax/-/sugax-1.0.83.tgz#a64c632c795d2cef19225a7231d4c68507793af2"
-  integrity sha512-bRWRNwkkTCsBJiwkClqCygClgIEA2eIIS2NJu8TbNBMRbQm5kSaJXGlNnHCQG/tsnZS5x4gZX1noX3ql6JQUJQ==
-  dependencies:
-    lodash ">=4.17.21"
 
 supports-color@^5.3.0, supports-color@^5.5.0:
   version "5.5.0"
