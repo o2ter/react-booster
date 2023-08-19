@@ -164,10 +164,6 @@ module.exports = (env, argv) => {
           ...webpackConfiguration.resolve.alias,
           __APPLICATION__: path.resolve(process.cwd(), entry),
         },
-        fallback: {
-          crypto: require.resolve('crypto-browserify'),
-          stream: require.resolve('stream-browserify'),
-        },
       },
       module: {
         rules: [
