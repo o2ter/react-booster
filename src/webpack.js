@@ -26,6 +26,7 @@ module.exports = (env, argv) => {
       options: {
         compact: IS_PRODUCTION,
         cacheDirectory: true,
+        configFile: false,
         presets: [
           [
             '@babel/preset-react',
