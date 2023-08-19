@@ -153,7 +153,7 @@ module.exports = (env, argv) => {
       ...webpackConfiguration,
       plugins: webpackPlugins,
       entry: {
-        [name]: path.resolve(__dirname, './client/index.js'),
+        [`${name}_bundle`]: path.resolve(__dirname, './client/index.js'),
       },
       resolve: {
         ...webpackConfiguration.resolve,
