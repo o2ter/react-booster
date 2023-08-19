@@ -30,7 +30,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { BootstrapRoute, ReactRoute } from '@o2ter/react-route';
 import application from '../common/run/application';
-import __SERVER__ from '__SERVER__';
+import * as __SERVER__ from '__SERVER__';
 import __THEMES__ from '__THEMES__';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
@@ -43,7 +43,7 @@ const react_env = {
   BOOTSTRAP_BASE_URL: '/css/bootstrap',
 };
 
-__SERVER__(app, react_env);
+__SERVER__.default(app, react_env);
 
 let precompiled = {};
 try {
@@ -53,11 +53,16 @@ try {
 
 app.use('/css/bootstrap', BootstrapRoute(__THEMES__, precompiled));
 
-for (const [name, path] of _.toPairs(__applications__)) {
+for (const [name, { path, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {
-    env: react_env,
+    env: {
+      ...react_env,
+      ...env,
+    },
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
+    preferredLocale: __SERVER__.preferredLocale ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
+    resources: __SERVER__.resources ? (req) => __SERVER__.resources(name, req) : undefined,
   });
   if (_.isEmpty(path) || path === '/') {
     app.use(route);

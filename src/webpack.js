@@ -180,7 +180,10 @@ module.exports = (env, argv) => {
       plugins: [
         ...webpackPlugins,
         new webpack.DefinePlugin({
-          __applications__: JSON.stringify(_.mapValues(config.client, x => x.uri)),
+          __applications__: JSON.stringify(_.mapValues(config.client, x => ({
+            path: x.uri,
+            env: x.env ?? {},
+          }))),
         }),
         new BootstrapPlugin({
           themes: path.relative(process.cwd(), themes),
