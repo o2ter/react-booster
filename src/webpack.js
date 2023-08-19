@@ -125,7 +125,9 @@ module.exports = (env, argv) => {
         '.ts', '.ts', '.mjs', '...'
       ]
     },
-    output: config.output,
+    output: {
+      path: path.join(config.output, 'public'),
+    },
     externals: config.externals,
   };
 
