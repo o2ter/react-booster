@@ -61,8 +61,8 @@ for (const [name, { path, env }] of _.toPairs(__applications__)) {
     },
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
-    preferredLocale: __SERVER__.preferredLocale ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
-    resources: __SERVER__.resources ? (req) => __SERVER__.resources(name, req) : undefined,
+    preferredLocale: 'preferredLocale' in __SERVER__ ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
+    resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
   });
   if (_.isEmpty(path) || path === '/') {
     app.use(route);
