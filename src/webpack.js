@@ -138,7 +138,7 @@ module.exports = (env, argv) => {
   const themes = config.themes ? path.resolve(CWD, config.themes) : path.resolve(__dirname, './common/themes');
 
   return [
-    ..._.map(_.toPairs(config.client), ([name, { entry }]) => ({
+    ..._.map(config.client, ({ entry }, name) => ({
       ...webpackConfiguration,
       plugins: webpackPlugins,
       entry: {
@@ -169,12 +169,18 @@ module.exports = (env, argv) => {
       plugins: [
         ...webpackPlugins,
         new webpack.DefinePlugin({
-          __APPLICATIONS__: JSON.stringify(_.mapValues(config.client, x => x.uri)),
+          __APPLICATIONS__: `[${_.map(config.client, (x, k) => `{
+            uri: ${JSON.stringify(x.uri)},
+            APPLICATION: __APP$${k}__,
+          }`).join(',')}]`,
         }),
         new BootstrapPlugin({
           themes: path.relative(CWD, themes),
           output: '../themes.json',
         }),
+        new webpack.ProvidePlugin(_.fromPairs(
+          _.map(config.client, ({ entry }, name) => ([`__APP$${name}__`, path.resolve(CWD, entry)]))
+        )),
       ],
       target: 'node',
       entry: {

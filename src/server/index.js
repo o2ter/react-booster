@@ -52,16 +52,16 @@ try {
 
 app.use('/css/bootstrap', BootstrapRoute(__THEMES__, precompiled));
 
-for (const [name, path] of _.toPairs(__APPLICATIONS__)) {
-  const route = ReactRoute(application(Dashboard), {
+for (const [name, { uri, APPLICATION }] of _.toPairs(__APPLICATIONS__)) {
+  const route = ReactRoute(application(APPLICATION), {
     env: react_env,
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
   });
-  if (_.isEmpty(path) || path === '/') {
+  if (_.isEmpty(uri) || uri === '/') {
     app.use(route);
   } else {
-    app.use(path, route);
+    app.use(uri, route);
   }
 }
 
