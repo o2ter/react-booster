@@ -35,16 +35,10 @@
     "es6-promise": "^4.2.8",
     "express": "^4.18.2",
     "file-loader": "^6.2.0",
-    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
     "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5",
     "postcss-loader": "^7.3.3",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.8.0",
-    "react-dom": "^18.2.0",
-    "react-native-reanimated": "^3.4.2",
-    "react-native-web": "^0.19.7",
     "sass": "^1.66.0",
     "sass-loader": "^13.3.2",
     "stream-browserify": "^3.0.0",
@@ -59,6 +53,11 @@
     "@o2ter/react-ui": "^0.0.148",
     "@types/lodash": "^4.14.197",
     "@types/react": "^18.2.20",
-    "@types/react-native": "^0.72.2"
+    "@types/react-native": "^0.72.2",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.8.0",
+    "react-dom": "^18.2.0",
+    "react-native-reanimated": "^3.4.2",
+    "react-native-web": "^0.19.7"
   }
 }
