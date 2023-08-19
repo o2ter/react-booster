@@ -37,7 +37,7 @@ import * as __APPLICATIONS__ from '__APPLICATIONS__';
 const app = express();
 app.use(cookieParser());
 
-app.use(express.static('dist/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const react_env = {
   BOOTSTRAP_BASE_URL: '/css/bootstrap',
