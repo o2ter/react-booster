@@ -129,7 +129,7 @@ module.exports = (env, argv) => {
     output: {
       path: path.join(config.output, 'public'),
     },
-    externals: config.externals,
+    externals: config.options?.externals,
   };
 
   const webpackPlugins = [
@@ -137,7 +137,7 @@ module.exports = (env, argv) => {
     new webpack.DefinePlugin({ __DEV__: JSON.stringify(!IS_PRODUCTION) }),
     new LoadablePlugin({ outputAsset: false }),
     new Dotenv({ path: path.join(process.cwd(), '.env') }),
-    ...(config.webpackPlugins ?? []),
+    ...config.options?.plugins ?? [],
   ];
 
   const themes = config.themes ? path.resolve(process.cwd(), config.themes) : path.resolve(__dirname, './common/themes');
@@ -172,6 +172,7 @@ module.exports = (env, argv) => {
           cssLoaderConfiguration({ outputFile: true }),
           imageLoaderConfiguration,
           fontLoaderConfiguration,
+          ...config.options?.module?.rules ?? [],
         ]
       }
     })),
@@ -209,6 +210,7 @@ module.exports = (env, argv) => {
           cssLoaderConfiguration({ outputFile: false }),
           imageLoaderConfiguration,
           fontLoaderConfiguration,
+          ...config.options?.module?.rules ?? [],
         ]
       },
       performance: {
