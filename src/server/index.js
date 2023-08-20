@@ -30,9 +30,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { BootstrapRoute, ReactRoute } from '@o2ter/react-route';
 import application from '../common/run/application';
-import * as __SERVER__ from '__SERVER__';
-import __THEMES__ from '__THEMES__';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
+import __THEMES__ from '__THEMES__';
 
 const app = express();
 app.use(cookieParser());
@@ -43,7 +42,11 @@ const react_env = {
   BOOTSTRAP_BASE_URL: '/css/bootstrap',
 };
 
-await __SERVER__.default(app, react_env);
+let __SERVER__ = {};
+try {
+  __SERVER__ = await import('__SERVER__');
+  if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
+} catch {}
 
 let precompiled = {};
 try {

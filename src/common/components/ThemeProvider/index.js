@@ -29,11 +29,14 @@ import { ThemeProvider as _ThemeProvider } from '@o2ter/react-ui';
 import { BootstrapProvider } from '@o2ter/react-route/dist/client';
 import { useColorScheme } from '../../hooks/useColorScheme';
 
-import ThemeList from '../../themes';
+import ThemeList from '__THEMES__';
+
+const DEFAULT_THEME = process.env.DEFAULT_THEME ?? _.first(_.keys(ThemeList));
+const DEFAULT_DARK_THEME = process.env.DEFAULT_DARK_THEME ?? DEFAULT_THEME;
 
 const defaultScheme = {
-  light: process.env.DEFAULT_THEME,
-  dark: process.env.DEFAULT_DARK_THEME,
+  light: DEFAULT_THEME,
+  dark: DEFAULT_DARK_THEME,
 };
 
 export const ThemeProvider = ({

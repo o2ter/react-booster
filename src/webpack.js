@@ -163,6 +163,7 @@ module.exports = (env, argv) => {
         alias: {
           ...webpackConfiguration.resolve.alias,
           __APPLICATION__: path.resolve(process.cwd(), entry),
+          __THEMES__: themes,
         },
       },
       module: {
@@ -197,9 +198,9 @@ module.exports = (env, argv) => {
         ...webpackConfiguration.resolve,
         alias: {
           ...webpackConfiguration.resolve.alias,
-          __SERVER__: path.resolve(process.cwd(), config.serverEntry),
-          __THEMES__: themes,
           __APPLICATIONS__: applications,
+          __THEMES__: themes,
+          ...config.serverEntry ? { __SERVER__: path.resolve(process.cwd(), config.serverEntry) } : {},
         },
       },
       module: {
