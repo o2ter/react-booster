@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@o2ter/i18n": "^0.0.10",
-    "@o2ter/react-ui": "^0.0.154",
+    "@o2ter/react-ui": "^0.0.155",
     "@o2ter/wireframe": "^0.0.6",
     "@types/lodash": "^4.14.197",
     "@types/react": "^18.2.20",
