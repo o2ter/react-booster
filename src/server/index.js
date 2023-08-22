@@ -27,7 +27,7 @@ import _ from 'lodash';
 import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { ReactRoute } from '../react-route';
+import { ReactRoute } from '../route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 

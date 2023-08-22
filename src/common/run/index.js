@@ -24,6 +24,6 @@
 //
 
 import application from './application';
-import { runApplication } from '../../react-route/client';
+import { runApplication } from '../../route/client';
 
 export default (App) => runApplication(application(App));
