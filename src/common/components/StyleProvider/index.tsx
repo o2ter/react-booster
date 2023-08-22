@@ -42,66 +42,26 @@ body {
 }
 `;
 
-const css_mapping = (ltr: boolean) => ({
-  alignContent: 'align-content',
-  alignItems: 'align-items',
-  alignSelf: 'align-self',
-  backgroundColor: 'background-color',
+const css_mapping = {
+  marginHorizontal: ['margin-left', 'margin-right'],
+  marginVertical: ['margin-top', 'margin-bottom'],
+  paddingHorizontal: ['padding-left', 'padding-right'],
+  paddingVertical: ['padding-top', 'padding-bottom'],
+};
+
+const dir_mapping = (ltr: boolean) => ({
   borderBottomEndRadius: ltr ? 'border-bottom-right-radius' : 'border-bottom-left-radius',
-  borderBottomLeftRadius: 'border-bottom-left-radius',
-  borderBottomRightRadius: 'border-bottom-right-radius',
   borderBottomStartRadius: ltr ? 'border-bottom-left-radius' : 'border-bottom-right-radius',
-  borderBottomWidth: 'border-bottom-width',
-  borderColor: 'border-color',
   borderEndWidth: ltr ? 'border-right-width' : 'border-left-width',
-  borderLeftWidth: 'border-left-width',
-  borderRadius: 'border-radius',
-  borderRightWidth: 'border-right-width',
   borderStartWidth: ltr ? 'border-left-width' : 'border-right-width',
   borderTopEndRadius: ltr ? 'border-top-right-radius' : 'border-top-left-radius',
-  borderTopLeftRadius: 'border-top-left-radius',
-  borderTopRightRadius: 'border-top-right-radius',
   borderTopStartRadius: ltr ? 'border-top-left-radius' : 'border-top-right-radius',
-  borderTopWidth: 'border-top-width',
-  borderWidth: 'border-width',
-  bottom: 'bottom',
-  color: 'color',
-  display: 'display',
   end: ltr ? 'right' : 'left',
-  flexDirection: 'flex-direction',
-  fontSize: 'font-size',
-  fontStyle: 'font-style',
-  fontWeight: 'font-weight',
-  gap: 'gap',
-  height: 'height',
-  left: 'left',
-  margin: 'margin',
-  marginBottom: 'margin-bottom',
   marginEnd: ltr ? 'margin-right' : 'margin-left',
-  marginHorizontal: ['margin-left', 'margin-right'],
-  marginLeft: 'margin-left',
-  marginRight: 'margin-right',
   marginStart: ltr ? 'margin-left' : 'margin-right',
-  marginTop: 'margin-top',
-  marginVertical: ['margin-top', 'margin-bottom'],
-  padding: 'padding',
-  paddingBottom: 'padding-bottom',
   paddingEnd: ltr ? 'padding-right' : 'padding-left',
-  paddingHorizontal: ['padding-left', 'padding-right'],
-  paddingLeft: 'padding-left',
-  paddingRight: 'padding-right',
   paddingStart: ltr ? 'padding-left' : 'padding-right',
-  paddingTop: 'padding-top',
-  paddingVertical: ['padding-top', 'padding-bottom'],
-  position: 'position',
-  right: 'right',
   start: ltr ? 'left' : 'right',
-  textAlign: 'text-align',
-  textDecorationLine: 'text-decoration-line',
-  textTransform: 'text-transform',
-  top: 'top',
-  width: 'width',
-  zIndex: 'z-index',
 });
 
 const CSSStyleProvider = ({
@@ -111,15 +71,17 @@ const CSSStyleProvider = ({
   const { classes } = useAllStyle();
   React.useEffect(() => {
 
-    const mapping = css_mapping(true);
+    const _dir_mapping = dir_mapping(true);
     let css = default_css(theme);
 
     for (const [name, style] of _.toPairs(classes)) {
       const styles: string[] = [];
       for (const [k, v] of _.toPairs(StyleSheet.flatten(style))) {
-        const _k = _.castArray(mapping[k]);
-        if (_.isString(v) || v === 0) styles.push(..._.map(_k, x => `${x}: ${v};`));
-        else if (_.isNumber(v)) styles.push(..._.map(_k, x => `${x}: ${v}px;`));
+        for (const _k of _.castArray(css_mapping[k] ?? _dir_mapping[k] ?? _.kebabCase(k))) {
+          if (_.isEmpty(_k)) continue;
+          if (_.isString(v) || v === 0) styles.push(`${_k}: ${v};`);
+          else if (_.isNumber(v)) styles.push(`${_k}: ${v}px;`);
+        }
       }
       css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
     }
