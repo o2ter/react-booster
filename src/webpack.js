@@ -195,6 +195,7 @@ module.exports = (env, argv) => {
         alias: {
           ...webpackConfiguration.resolve.alias,
           __APPLICATIONS__: applications,
+          __THEMES__: themes,
           ...config.serverEntry ? { __SERVER__: path.resolve(process.cwd(), config.serverEntry) } : {},
         },
       },
