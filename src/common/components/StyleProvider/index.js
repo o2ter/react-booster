@@ -28,15 +28,31 @@ import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle } from '@o2ter/react-ui';
 
+const default_css = `
+:root {
+  --font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans-serif);
+}
+`;
+
 const CSSStyleProvider = ({
   children
 }) => {
   const { classes } = useAllStyle();
   React.useEffect(() => {
 
+    let css = default_css;
+
+    for (const [name, style] of _.toPairs(classes)) {
+
+    }
+
     const stylesheet = document.createElement('style');
-
-
+    stylesheet.textContent = css;
 
     const [first] = document.head.querySelectorAll('style, link[rel="stylesheet"]');
     if (first) {
