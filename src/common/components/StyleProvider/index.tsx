@@ -27,7 +27,7 @@ import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle, useTheme } from '@o2ter/react-ui';
-import { StyleSheet } from 'react-native';
+import { I18nManager, StyleSheet } from 'react-native';
 
 const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
@@ -71,7 +71,7 @@ const CSSStyleProvider = ({
   const { classes } = useAllStyle();
   React.useEffect(() => {
 
-    const _dir_mapping = dir_mapping(true);
+    const _dir_mapping = dir_mapping(!I18nManager.isRTL);
     let css = default_css(theme);
 
     for (const [name, style] of _.toPairs(classes)) {
