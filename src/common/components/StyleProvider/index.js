@@ -26,14 +26,23 @@
 import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
+import { useAllStyle } from '@o2ter/react-ui';
 
-export const StyleProvider = ({
+const CSSStyleProvider = ({
   children
 }) => {
 
+  const styles = useAllStyle();
+
   return (
-    <DefaultStyleProvider>
-      {children}
-    </DefaultStyleProvider>
+    <>{children}</>
   );
 }
+
+export const StyleProvider = ({
+  children
+}) => (
+  <DefaultStyleProvider>
+    <CSSStyleProvider>{children}</CSSStyleProvider>
+  </DefaultStyleProvider>
+);
