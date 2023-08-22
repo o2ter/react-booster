@@ -114,9 +114,9 @@ const CSSStyleProvider = ({
     for (const [name, style] of _.toPairs(classes)) {
       const styles: string[] = [];
       for (const [k, v] of _.toPairs(StyleSheet.flatten(style))) {
-        const _k = _.castArray(k);
-        if (_.isString(v) || v === 0) styles.push(..._.map(_k, x => `${mapping[x]}: ${v};`));
-        if (_.isNumber(v)) styles.push(..._.map(_k, x => `${mapping[x]}: ${v}px;`));
+        const _k = _.castArray(mapping[k]);
+        if (_.isString(v) || v === 0) styles.push(..._.map(_k, x => `${x}: ${v};`));
+        else if (_.isNumber(v)) styles.push(..._.map(_k, x => `${x}: ${v}px;`));
       }
       css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
     }
