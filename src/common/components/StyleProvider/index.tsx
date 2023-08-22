@@ -27,6 +27,7 @@ import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle } from '@o2ter/react-ui';
+import { StyleSheet } from 'react-native';
 
 const default_css = `
 :root {
@@ -107,10 +108,17 @@ const CSSStyleProvider = ({
   const { classes } = useAllStyle();
   React.useEffect(() => {
 
+    const mapping = css_mapping(true);
     let css = default_css;
 
     for (const [name, style] of _.toPairs(classes)) {
-
+      const styles: string[] = [];
+      for (const [k, v] of _.toPairs(StyleSheet.flatten(style))) {
+        const _k = _.castArray(k);
+        if (_.isString(v) || v === 0) styles.push(..._.map(_k, x => `${mapping[x]}: ${v};`));
+        if (_.isNumber(v)) styles.push(..._.map(_k, x => `${mapping[x]}: ${v}px;`));
+      }
+      css += `\n.${name} {${styles.join('\n')}}`;
     }
 
     const stylesheet = document.createElement('style');
