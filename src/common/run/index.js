@@ -23,8 +23,6 @@
 //  THE SOFTWARE.
 //
 
-import 'bootstrap/dist/js/bootstrap.js';
-
 import application from './application';
 import { runApplication } from '@o2ter/react-route/dist/client';
 

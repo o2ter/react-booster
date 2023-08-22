@@ -49,14 +49,12 @@
     "whatwg-url": "^13.0.0"
   },
   "devDependencies": {
-    "@o2ter/react-route": "^0.0.59",
     "@o2ter/react-ui": "^0.0.153",
     "@types/lodash": "^4.14.197",
     "@types/react": "^18.2.20",
     "@types/react-native": "^0.72.2",
     "@o2ter/wireframe": "^0.0.6",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-native-reanimated": "^3.4.2",
     "react-native-web": "^0.19.7"

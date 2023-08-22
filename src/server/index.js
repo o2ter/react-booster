@@ -24,37 +24,24 @@
 //
 
 import _ from 'lodash';
-import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { BootstrapRoute, ReactRoute } from '@o2ter/react-route';
+import { ReactRoute } from '@o2ter/react-route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
-import __THEMES__ from '__THEMES__';
 
 const app = express();
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const react_env = {
-  BOOTSTRAP_BASE_URL: '/css/bootstrap',
-};
-
+const react_env = {};
 let __SERVER__ = {};
 try {
   __SERVER__ = await import('__SERVER__');
   if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
 } catch {}
-
-let precompiled = {};
-try {
-  const content = fs.readFileSync(path.join(__dirname, 'themes.json'), { encoding: 'utf-8' });
-  precompiled = JSON.parse(content);
-} catch { };
-
-app.use('/css/bootstrap', BootstrapRoute(__THEMES__, precompiled));
 
 for (const [name, { path, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {

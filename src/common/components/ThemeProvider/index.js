@@ -26,7 +26,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { ThemeProvider as _ThemeProvider } from '@o2ter/react-ui';
-import { BootstrapProvider } from '@o2ter/react-route/dist/client';
 import { useColorScheme } from '../../hooks/useColorScheme';
 
 import ThemeList from '__THEMES__';
@@ -48,10 +47,8 @@ export const ThemeProvider = ({
   const { styles, ...variables } = ThemeList[selected_theme] ?? {};
 
   return (
-    <BootstrapProvider theme={selected_theme}>
-      <_ThemeProvider variables={variables} styles={styles}>
-        {children}
-      </_ThemeProvider>
-    </BootstrapProvider>
+    <_ThemeProvider variables={variables} styles={styles}>
+      {children}
+    </_ThemeProvider>
   );
 }

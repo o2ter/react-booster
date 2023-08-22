@@ -10,7 +10,6 @@ const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { BootstrapPlugin } = require('@o2ter/react-route/dist/webpack');
 
 const serverConfig = require(path.resolve(process.cwd(), 'server.config.js'));
 
@@ -186,10 +185,6 @@ module.exports = (env, argv) => {
             env: x.env ?? {},
           }))),
         }),
-        new BootstrapPlugin({
-          themes: path.relative(process.cwd(), themes),
-          output: '../themes.json',
-        }),
       ],
       target: 'node',
       entry: {
@@ -200,7 +195,6 @@ module.exports = (env, argv) => {
         alias: {
           ...webpackConfiguration.resolve.alias,
           __APPLICATIONS__: applications,
-          __THEMES__: themes,
           ...config.serverEntry ? { __SERVER__: path.resolve(process.cwd(), config.serverEntry) } : {},
         },
       },
