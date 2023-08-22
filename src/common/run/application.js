@@ -32,10 +32,12 @@ import {
   ToastProvider,
   ModalProvider,
 } from '../components';
+import { DefaultStyleProvider } from '@o2ter/wireframe';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
   ThemeProvider,
+  DefaultStyleProvider,
   ActivityIndicatorProvider,
   ToastProvider,
   ModalProvider,
