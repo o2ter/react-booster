@@ -33,14 +33,12 @@ const CSSStyleProvider = ({
 }) => {
   const { classes } = useAllStyle();
   React.useEffect(() => {
-
     const stylesheet = document.createElement('style');
+
+
+
     document.head.appendChild(stylesheet);
-
-
-
     return () => stylesheet.remove();
-
   }, [classes]);
   return (
     <>{children}</>
