@@ -1,5 +1,5 @@
 //
-//  index.js
+//  safeArea.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,7 +23,17 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
+import React from 'react';
+import { SafeAreaProvider as _SafeAreaProvider } from '@o2ter/react-ui';
 
-export default (App) => runApplication(application(App));
+const defaultMetrics = {
+  frame: { x: 0, y: 0, width: 0, height: 0 },
+  insets: { top: 0, left: 0, right: 0, bottom: 0 },
+};
+
+export const SafeAreaProvider: React.FC<React.ComponentPropsWithoutRef<typeof _SafeAreaProvider>> = ({
+  children,
+  ...props
+}) => <_SafeAreaProvider initialMetrics={defaultMetrics} {...props}>{children}</_SafeAreaProvider>
+
+SafeAreaProvider.displayName = 'SafeAreaProvider';

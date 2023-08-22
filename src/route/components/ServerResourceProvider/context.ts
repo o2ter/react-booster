@@ -1,5 +1,5 @@
 //
-//  index.js
+//  context.ts
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,7 +23,8 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
+import React from 'react';
 
-export default (App) => runApplication(application(App));
+export const ServerResourceContext = React.createContext<any>({});
+
+ServerResourceContext.displayName = 'ServerResourceContext';

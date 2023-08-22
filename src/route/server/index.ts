@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.ts
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,43 +23,43 @@
 //  THE SOFTWARE.
 //
 
-import _ from 'lodash';
-import path from 'path';
-import express from 'express';
+import express, { Request } from 'express';
 import cookieParser from 'cookie-parser';
-import { ReactRoute } from '../react-route';
-import application from '../common/run/application';
-import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
-const app = express();
-app.use(cookieParser());
+import { defaultPreferredLocale, renderToHTML } from './render';
+import { Awaitable } from 'sugax/dist/index.web';
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-const react_env = {};
-let __SERVER__ = {};
-try {
-  __SERVER__ = await import('__SERVER__');
-  if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
-} catch {}
-
-for (const [name, { path, env }] of _.toPairs(__applications__)) {
-  const route = ReactRoute(application(__APPLICATIONS__[name]), {
-    env: {
-      ...react_env,
-      ...env,
-    },
-    jsSrc: `/${name}_bundle.js`,
-    cssSrc: `/css/${name}_bundle.css`,
-    preferredLocale: 'preferredLocale' in __SERVER__ ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
-    resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
-  });
-  if (_.isEmpty(path) || path === '/') {
-    app.use(route);
-  } else {
-    app.use(path, route);
-  }
+type ReactRouteOptions = {
+  env: any;
+  jsSrc: string;
+  cssSrc: string;
+  preferredLocale?: (req: Request) => Awaitable<string | undefined>;
+  resources?: (req: Request) => Awaitable<any>;
 }
 
-const httpServer = require('http').createServer(app);
-httpServer.listen(8080, () => console.log('listening on port 8080'));
+export const ReactRoute = (App: any, {
+  env = {},
+  jsSrc = '/bundle.js',
+  cssSrc = '/css/bundle.css',
+  preferredLocale = defaultPreferredLocale,
+  resources,
+}: ReactRouteOptions) => {
+
+  const router = express.Router();
+  router.use(cookieParser() as any);
+
+  router.get('*', async (req, res) => {
+    const _preferredLocale = await preferredLocale(req);
+    res.cookie('PREFERRED_LOCALE', _preferredLocale, { maxAge: 31536000 });
+    res.send(renderToHTML(App, {
+      env,
+      jsSrc,
+      cssSrc,
+      preferredLocale: _preferredLocale,
+      location: req.path,
+      resources: await resources?.(req),
+    }));
+  });
+
+  return router;
+}

@@ -23,7 +23,4 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
-
-export default (App) => runApplication(application(App));
+export { ReactRoute } from './server';

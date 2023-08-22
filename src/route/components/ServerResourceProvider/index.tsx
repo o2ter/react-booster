@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,7 +23,14 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
+import React from 'react';
+import { ServerResourceContext } from './context';
 
-export default (App) => runApplication(application(App));
+const initState = typeof window === 'undefined' ? null : window.history.state;
+
+export const useServerResource = () => {
+  if (typeof window !== 'undefined' && initState !== window.history.state) {
+    return {};
+  }
+  return React.useContext(ServerResourceContext);;
+}

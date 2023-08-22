@@ -1,5 +1,5 @@
 //
-//  index.js
+//  env.ts
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,7 +23,15 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
+import { decompress } from '../minify/decompress';
+import { deserialize } from 'proto.io/dist/client';
 
-export default (App) => runApplication(application(App));
+let env: any = {};
+
+if (typeof document !== 'undefined') {
+  const envElement = document.getElementById('env') as HTMLScriptElement;
+  env = deserialize(decompress(envElement.text));
+  envElement.remove();
+}
+
+export { env };

@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -23,7 +23,33 @@
 //  THE SOFTWARE.
 //
 
-import application from './application';
-import { runApplication } from '../../react-route/client';
+import React from 'react';
+import { I18nProvider } from '@o2ter/i18n';
+import { AppRegistry } from 'react-native';
+import { BrowserNavigator } from '@o2ter/react-ui';
+import { SafeAreaProvider } from '../safeArea';
+import { ServerResourceContext } from '../components/ServerResourceProvider/context';
+import { resources } from './resources';
 
-export default (App) => runApplication(application(App));
+export * from '../components';
+export * from './env';
+
+export const runApplication = (App: React.FunctionComponent) => {
+
+  const preferredLocale = document.cookie.split('; ').find((row) => row.startsWith('PREFERRED_LOCALE='))?.split('=')[1];
+
+  function Main() {
+    return <ServerResourceContext.Provider value={resources}>
+      <I18nProvider
+        preferredLocale={preferredLocale}
+        onChange={locale => document.cookie = `PREFERRED_LOCALE=${locale}; max-age=31536000; path=/`}>
+        <BrowserNavigator>
+          <SafeAreaProvider><App /></SafeAreaProvider>
+        </BrowserNavigator>
+      </I18nProvider>
+    </ServerResourceContext.Provider>;
+  }
+
+  AppRegistry.registerComponent('App', () => Main);
+  AppRegistry.runApplication('App', { rootTag: document.getElementById('root') });
+}
