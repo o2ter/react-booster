@@ -28,12 +28,18 @@ import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle } from '@o2ter/react-ui';
 
+const stylesheet = typeof document === 'undefined' ? null : document.createElement('style');
+if (stylesheet) {
+  document.head.appendChild(stylesheet);
+}
+
 const CSSStyleProvider = ({
   children
 }) => {
-
-  const styles = useAllStyle();
-
+  const { classes } = useAllStyle();
+  React.useEffect(() => {
+    
+  }, [classes]);
   return (
     <>{children}</>
   );
