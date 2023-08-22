@@ -29,15 +29,15 @@ import React from 'react';
 import {
   ActivityIndicatorProvider,
   ThemeProvider,
+  StyleProvider,
   ToastProvider,
   ModalProvider,
 } from '../components';
-import { DefaultStyleProvider } from '@o2ter/wireframe';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
   ThemeProvider,
-  DefaultStyleProvider,
+  StyleProvider,
   ActivityIndicatorProvider,
   ToastProvider,
   ModalProvider,

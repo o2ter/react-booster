@@ -23,8 +23,17 @@
 //  THE SOFTWARE.
 //
 
-export { ActivityIndicatorProvider } from './ActivityIndicatorProvider';
-export { ThemeProvider } from './ThemeProvider';
-export { StyleProvider } from './StyleProvider';
-export { ToastProvider } from './ToastProvider';
-export { ModalProvider } from './ModalProvider';
+import _ from 'lodash';
+import React from 'react';
+import { DefaultStyleProvider } from '@o2ter/wireframe';
+
+export const StyleProvider = ({
+  children
+}) => {
+
+  return (
+    <DefaultStyleProvider>
+      {children}
+    </DefaultStyleProvider>
+  );
+}
