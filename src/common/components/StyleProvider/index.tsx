@@ -26,10 +26,10 @@
 import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
-import { useAllStyle } from '@o2ter/react-ui';
+import { useAllStyle, useTheme } from '@o2ter/react-ui';
 import { StyleSheet } from 'react-native';
 
-const default_css = `
+const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
   --font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -37,6 +37,8 @@ const default_css = `
 body {
   margin: 0;
   font-family: var(--font-sans-serif);
+  background-color: ${theme.bodyBackground};
+  color: ${theme.bodyColor};
 }
 `;
 
@@ -105,11 +107,12 @@ const css_mapping = (ltr: boolean) => ({
 const CSSStyleProvider = ({
   children
 }) => {
+  const theme = useTheme();
   const { classes } = useAllStyle();
   React.useEffect(() => {
 
     const mapping = css_mapping(true);
-    let css = default_css;
+    let css = default_css(theme);
 
     for (const [name, style] of _.toPairs(classes)) {
       const styles: string[] = [];
