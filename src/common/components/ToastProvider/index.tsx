@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -25,17 +25,17 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { ActivityIndicatorProvider as _ActivityIndicatorProvider } from '@o2ter/react-ui';
+import { ToastProvider as _ToastProvider } from '@o2ter/react-ui';
 
-export const ActivityIndicatorProvider = ({
+export const ToastProvider = ({
   children,
   ...props
 }) => {
   return (
-    <_ActivityIndicatorProvider {...props}>
+    <_ToastProvider {...props}>
       {children}
-    </_ActivityIndicatorProvider>
+    </_ToastProvider>
   );
 }
 
-export default ActivityIndicatorProvider;
+export default ToastProvider;

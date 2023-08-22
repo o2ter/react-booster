@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -25,17 +25,17 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { ModalProvider as _ModalProvider } from '@o2ter/react-ui';
+import { ActivityIndicatorProvider as _ActivityIndicatorProvider } from '@o2ter/react-ui';
 
-export const ModalProvider = ({
+export const ActivityIndicatorProvider = ({
   children,
   ...props
 }) => {
   return (
-    <_ModalProvider {...props}>
+    <_ActivityIndicatorProvider {...props}>
       {children}
-    </_ModalProvider>
+    </_ActivityIndicatorProvider>
   );
 }
 
-export default ModalProvider;
+export default ActivityIndicatorProvider;

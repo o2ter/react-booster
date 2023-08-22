@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -25,17 +25,17 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { ToastProvider as _ToastProvider } from '@o2ter/react-ui';
+import { ModalProvider as _ModalProvider } from '@o2ter/react-ui';
 
-export const ToastProvider = ({
+export const ModalProvider = ({
   children,
   ...props
 }) => {
   return (
-    <_ToastProvider {...props}>
+    <_ModalProvider {...props}>
       {children}
-    </_ToastProvider>
+    </_ModalProvider>
   );
 }
 
-export default ToastProvider;
+export default ModalProvider;

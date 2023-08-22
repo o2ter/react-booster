@@ -1,5 +1,5 @@
 //
-//  index.js
+//  index.tsx
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -38,6 +38,68 @@ body {
   font-family: var(--font-sans-serif);
 }
 `;
+
+const css_mapping = (ltr: boolean) => ({
+  alignContent: 'align-content',
+  alignItems: 'align-items',
+  alignSelf: 'align-self',
+  backgroundColor: 'background-color',
+  borderBottomEndRadius: '',
+  borderBottomLeftRadius: '',
+  borderBottomRightRadius: '',
+  borderBottomStartRadius: '',
+  borderBottomWidth: 'border-bottom-width',
+  borderColor: 'border-color',
+  borderEndWidth: '',
+  borderLeftWidth: 'border-left-width',
+  borderRadius: 'border-radius',
+  borderRightWidth: 'border-right-width',
+  borderStartWidth: '',
+  borderTopEndRadius: '',
+  borderTopLeftRadius: '',
+  borderTopRightRadius: '',
+  borderTopStartRadius: '',
+  borderTopWidth: 'border-top-width',
+  borderWidth: 'border-width',
+  bottom: 'bottom',
+  color: 'color',
+  display: 'display',
+  end: 'end',
+  flexDirection: 'flex-direction',
+  fontSize: 'font-size',
+  fontStyle: 'font-style',
+  fontWeight: 'font-weight',
+  gap: 'gap',
+  height: 'height',
+  left: 'left',
+  margin: 'margin',
+  marginBottom: 'margin-bottom',
+  marginEnd: '',
+  marginHorizontal: ['margin-left', 'margin-right'],
+  marginLeft: 'margin-left',
+  marginRight: 'margin-right',
+  marginStart: '',
+  marginTop: 'margin-top',
+  marginVertical: ['margin-top', 'margin-bottom'],
+  padding: 'padding',
+  paddingBottom: 'padding-bottom',
+  paddingEnd: '',
+  paddingHorizontal: ['padding-left', 'padding-right'],
+  paddingLeft: 'padding-left',
+  paddingRight: 'padding-right',
+  paddingStart: '',
+  paddingTop: 'padding-top',
+  paddingVertical: ['padding-top', 'padding-bottom'],
+  position: 'position',
+  right: 'right',
+  start: '',
+  textAlign: 'text-align',
+  textDecorationLine: 'text-decoration-line',
+  textTransform: 'text-transform',
+  top: 'top',
+  width: 'width',
+  zIndex: 'z-index',
+});
 
 const CSSStyleProvider = ({
   children
