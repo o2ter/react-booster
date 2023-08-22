@@ -118,7 +118,7 @@ const CSSStyleProvider = ({
         if (_.isString(v) || v === 0) styles.push(..._.map(_k, x => `${mapping[x]}: ${v};`));
         if (_.isNumber(v)) styles.push(..._.map(_k, x => `${mapping[x]}: ${v}px;`));
       }
-      css += `\n.${name} {\n${styles.join('\n')}\n}`;
+      css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
     }
 
     const stylesheet = document.createElement('style');
