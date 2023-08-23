@@ -66,6 +66,8 @@ const dir_mapping = (ltr: boolean) => ({
   start: ltr ? 'left' : 'right',
 });
 
+const numberStyleList = ['zIndex'];
+
 const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
 }) => {
@@ -87,8 +89,11 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
           ?? _.kebabCase(k)
         )) {
           if (_.isEmpty(_k)) continue;
-          if (_.isString(v) || v === 0) styles.push(`${_k}: ${v};`);
-          else if (_.isNumber(v)) styles.push(`${_k}: ${v}px;`);
+          if (_.isString(v) || v === 0) {
+            styles.push(`${_k}: ${v};`);
+          } else if (_.isNumber(v)) {
+            styles.push(_.includes(numberStyleList, _k) ? `${_k}: ${v};` : `${_k}: ${v}px;`);
+          }
         }
       }
       css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
