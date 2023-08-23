@@ -23,8 +23,6 @@
 //  THE SOFTWARE.
 //
 
-export { ActivityIndicatorProvider } from './ActivityIndicatorProvider';
+export { SSRRegister } from './SSRRegister';
 export { ThemeProvider } from './ThemeProvider';
 export { StyleProvider } from './StyleProvider';
-export { ToastProvider } from './ToastProvider';
-export { ModalProvider } from './ModalProvider';

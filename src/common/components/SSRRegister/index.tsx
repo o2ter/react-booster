@@ -25,17 +25,16 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { ActivityIndicatorProvider as _ActivityIndicatorProvider } from '@o2ter/react-ui';
 
-export const ActivityIndicatorProvider = ({
+const SSRContext = React.createContext<Record<string, any>>({});
+
+export const SSRRegister: React.FC<React.PropsWithChildren<{
+  context: Record<string, any>;
+}>> = ({
   children,
-  ...props
-}) => {
-  return (
-    <_ActivityIndicatorProvider {...props}>
-      {children}
-    </_ActivityIndicatorProvider>
-  );
-}
+  context
+}) => (
+  <SSRContext.Provider value={context}>{children}</SSRContext.Provider>
+);
 
-export default ActivityIndicatorProvider;
+export const useSSRRegister = () => React.useContext(SSRContext);

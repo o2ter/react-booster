@@ -8,6 +8,7 @@ import { SafeAreaProvider } from '../safeArea';
 import { compress } from '../minify/compress';
 import { serialize } from 'proto.io';
 import { ServerResourceContext } from '../components/ServerResourceProvider/context';
+import { SSRRegister } from '../../common/components/SSRRegister';
 
 export function defaultPreferredLocale(req) {
 
@@ -29,17 +30,20 @@ export function renderToHTML(App, {
   env, jsSrc, cssSrc, location, preferredLocale, resources,
 }) {
 
+  const ssr_context = {};
   const context = {};
 
-  function Main() {
-    return <ServerResourceContext.Provider value={resources}>
+  const Main = () => (
+    <SSRRegister context={ssr_context}>
+      <ServerResourceContext.Provider value={resources}>
         <I18nProvider preferredLocale={preferredLocale}>
           <StaticNavigator location={location} context={context}>
             <SafeAreaProvider><App /></SafeAreaProvider>
           </StaticNavigator>
         </I18nProvider>
-    </ServerResourceContext.Provider>;
-  }
+      </ServerResourceContext.Provider>
+    </SSRRegister>
+  );
 
   AppRegistry.registerComponent('App', () => Main);
   const { element, getStyleElement } = AppRegistry.getApplication('App');
@@ -56,12 +60,15 @@ export function renderToHTML(App, {
     }
   }
 
+  let injectedStyle = ssr_context['__INJECTED_STYLE__'] ?? '';
+  if (injectedStyle) injectedStyle = `<style id="react-booster-ssr-styles">\n${injectedStyle}\n</style>`;
+
   return `
     <html>
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
-        ${title}${meta_string}
+        ${title}${meta_string}${injectedStyle}
         <link rel="stylesheet" href="${cssSrc}" />
         ${css}
       </head>

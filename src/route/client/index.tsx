@@ -31,15 +31,12 @@ import { SafeAreaProvider } from '../safeArea';
 import { ServerResourceContext } from '../components/ServerResourceProvider/context';
 import { resources } from './resources';
 
-export * from '../components';
-export * from './env';
-
 export const runApplication = (App: React.FunctionComponent) => {
 
   const preferredLocale = document.cookie.split('; ').find((row) => row.startsWith('PREFERRED_LOCALE='))?.split('=')[1];
 
-  function Main() {
-    return <ServerResourceContext.Provider value={resources}>
+  const Main = () => (
+    <ServerResourceContext.Provider value={resources}>
       <I18nProvider
         preferredLocale={preferredLocale}
         onChange={locale => document.cookie = `PREFERRED_LOCALE=${locale}; max-age=31536000; path=/`}>
@@ -47,8 +44,8 @@ export const runApplication = (App: React.FunctionComponent) => {
           <SafeAreaProvider><App /></SafeAreaProvider>
         </BrowserNavigator>
       </I18nProvider>
-    </ServerResourceContext.Provider>;
-  }
+    </ServerResourceContext.Provider>
+  );
 
   AppRegistry.registerComponent('App', () => Main);
   AppRegistry.runApplication('App', { rootTag: document.getElementById('root') });

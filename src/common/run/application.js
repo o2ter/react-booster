@@ -27,12 +27,14 @@ import _ from 'lodash';
 import React from 'react';
 
 import {
-  ActivityIndicatorProvider,
   ThemeProvider,
   StyleProvider,
-  ToastProvider,
-  ModalProvider,
 } from '../components';
+import {
+  ActivityIndicatorProvider,
+  ModalProvider,
+  ToastProvider,
+} from '@o2ter/react-ui';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [

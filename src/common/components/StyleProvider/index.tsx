@@ -28,6 +28,7 @@ import React from 'react';
 import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle, useTheme } from '@o2ter/react-ui';
 import { I18nManager, StyleSheet } from 'react-native';
+import { useSSRRegister } from '../SSRRegister';
 
 const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
@@ -65,12 +66,14 @@ const dir_mapping = (ltr: boolean) => ({
   start: ltr ? 'left' : 'right',
 });
 
-const CSSStyleProvider = ({
+const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
 }) => {
+
   const theme = useTheme();
   const { classes } = useAllStyle();
-  React.useEffect(() => {
+
+  const styles = React.useMemo(() => {
 
     const _dir_mapping = dir_mapping(!I18nManager.isRTL);
     let css = default_css(theme);
@@ -78,7 +81,11 @@ const CSSStyleProvider = ({
     for (const [name, style] of _.toPairs(classes)) {
       const styles: string[] = [];
       for (const [k, v] of _.toPairs(StyleSheet.flatten(style))) {
-        for (const _k of _.castArray(css_mapping[k] ?? _dir_mapping[k] ?? _.kebabCase(k))) {
+        for (const _k of _.castArray(
+          css_mapping[k as keyof typeof css_mapping]
+          ?? _dir_mapping[k as keyof typeof _dir_mapping]
+          ?? _.kebabCase(k)
+        )) {
           if (_.isEmpty(_k)) continue;
           if (_.isString(v) || v === 0) styles.push(`${_k}: ${v};`);
           else if (_.isNumber(v)) styles.push(`${_k}: ${v}px;`);
@@ -87,8 +94,22 @@ const CSSStyleProvider = ({
       css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
     }
 
+    return css;
+
+  }, [classes]);
+
+  if (typeof window === 'undefined') {
+    const ssr_context = useSSRRegister();
+    ssr_context['__INJECTED_STYLE__'] = styles;
+  }
+
+  React.useInsertionEffect(() => {
+
+    const ssr_element = document.getElementById('react-booster-ssr-styles');
+    if (ssr_element) ssr_element.remove();
+
     const stylesheet = document.createElement('style');
-    stylesheet.textContent = css;
+    stylesheet.textContent = styles;
 
     const [first] = document.head.querySelectorAll('style, link[rel="stylesheet"]');
     if (first) {
@@ -99,13 +120,14 @@ const CSSStyleProvider = ({
 
     return () => stylesheet.remove();
 
-  }, [classes]);
+  }, [styles]);
+
   return (
     <>{children}</>
   );
 }
 
-export const StyleProvider = ({
+export const StyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
 }) => (
   <DefaultStyleProvider>
