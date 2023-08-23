@@ -66,7 +66,7 @@ const dir_mapping = (ltr: boolean) => ({
   start: ltr ? 'left' : 'right',
 });
 
-const numberStyleList = ['zIndex'];
+const numberStyleList = ['z-index'];
 
 const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
