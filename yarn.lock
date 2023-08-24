@@ -1232,10 +1232,10 @@
     events ">=3.3.0"
     lodash ">=4.17.21"
 
-"@o2ter/react-ui@^0.0.155":
-  version "0.0.155"
-  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.155.tgz#26753a8070b26e956c469ef6a3ebc50201e464a7"
-  integrity sha512-UPwUOjaISz/rWumetiUV+f8Y5gG/F1gGaJEzCVNbwbleEGizvKqX/QYBR3/mX9Kz42cxGHEUYV/GjDNPlCK5vw==
+"@o2ter/react-ui@^0.0.163":
+  version "0.0.163"
+  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.163.tgz#546014f7a46aafdacf1a9db9255ac37709fabe8a"
+  integrity sha512-MRv6ybATEPIWRHxVD4oXpoNj7LGKB5lmRqITSAE6jk79JW3bLTdHawoqJhbNC2kabUU2eeUEOKPTdoMH0hN6vg==
   dependencies:
     "@react-native-picker/picker" ">=2.4.8"
     codemirror "^6.0.1"

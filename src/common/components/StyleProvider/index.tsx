@@ -26,8 +26,8 @@
 import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider, htmlElementStyles } from '@o2ter/wireframe';
-import { useAllStyle, useTheme } from '@o2ter/react-ui';
-import { I18nManager, StyleSheet } from 'react-native';
+import { flattenStyle, useAllStyle, useTheme } from '@o2ter/react-ui';
+import { I18nManager } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
 import { cssCompiler } from './compiler';
 
@@ -105,13 +105,13 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
     let css = default_css(theme);
 
     for (const [name, style] of _.toPairs(htmlElementStyles(classes))) {
-      const mapped = _.mapKeys(StyleSheet.flatten(style),
+      const mapped = _.mapKeys(flattenStyle(style),
         (v, k) => css_mapping[k as keyof typeof css_mapping] ?? _dir_mapping[k as keyof typeof _dir_mapping] ?? k
       );
       css += `\n${name} {\n${cssCompiler(mapped)}\n}`;
     }
     for (const [name, style] of _.toPairs(classes)) {
-      const mapped = _.mapKeys(StyleSheet.flatten(style),
+      const mapped = _.mapKeys(flattenStyle(style),
         (v, k) => css_mapping[k as keyof typeof css_mapping] ?? _dir_mapping[k as keyof typeof _dir_mapping] ?? k
       );
       css += `\n.${name} {\n${cssCompiler(mapped)}\n}`;
