@@ -1255,10 +1255,10 @@
     react-native-vector-icons ">=9.2.0"
     react-router-dom ">=6.6.2"
 
-"@o2ter/wireframe@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@o2ter/wireframe/-/wireframe-0.0.6.tgz#5b5fc7230e9e7fb7fe6bf87f6a333a64f8f43295"
-  integrity sha512-EB51uK+XT9wtYBtbfgS5yOIq3PP3FAgCRH0VCVg87WQmupWoUITjs0t+7SfPy2/5TR1z3KLLmLfodFUAJFHYaQ==
+"@o2ter/wireframe@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@o2ter/wireframe/-/wireframe-0.0.20.tgz#7f27df05e0876dedd3ee694e837daf814a5385f0"
+  integrity sha512-sdmDK96qXzeSkH+hfniZourE5anXeEUmCgX1w+KO7qy8iOmL791gGABYHqKazcRNGyUf97Ca/VRONgPH034avg==
   dependencies:
     lodash ">=4.17.21"
 
