@@ -66,7 +66,30 @@ const dir_mapping = (ltr: boolean) => ({
   start: ltr ? 'left' : 'right',
 });
 
-const numberStyleList = ['z-index'];
+const UNITLESS = [
+  'box-flex',
+  'box-flex-group',
+  'column-count',
+  'flex',
+  'flex-grow',
+  'flex-positive',
+  'flex-shrink',
+  'flex-negative',
+  'font-weight',
+  'line-clamp',
+  'line-height',
+  'opacity',
+  'order',
+  'orphans',
+  'tab-size',
+  'widows',
+  'z-index',
+  'zoom',
+  'fill-opacity',
+  'stroke-dashoffset',
+  'stroke-opacity',
+  'stroke-width',
+];
 
 const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
@@ -92,7 +115,7 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
           if (_.isString(v) || v === 0) {
             styles.push(`${_k}: ${v};`);
           } else if (_.isNumber(v)) {
-            styles.push(_.includes(numberStyleList, _k) ? `${_k}: ${v};` : `${_k}: ${v}px;`);
+            styles.push(_.includes(UNITLESS, _k) ? `${_k}: ${v};` : `${_k}: ${v}px;`);
           }
         }
       }
