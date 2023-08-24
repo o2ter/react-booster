@@ -140,6 +140,7 @@ module.exports = (env, argv) => {
   ];
 
   const themes = config.themes ? path.resolve(process.cwd(), config.themes) : path.resolve(__dirname, './common/themes');
+  const server = config.serverEntry ? path.resolve(process.cwd(), config.serverEntry) : path.resolve(__dirname, './server/default.js');
 
   const random = crypto.randomUUID();
   const tempDir = fs.mkdtempSync(`${os.tmpdir()}${path.sep}`);
@@ -196,7 +197,7 @@ module.exports = (env, argv) => {
           ...webpackConfiguration.resolve.alias,
           __APPLICATIONS__: applications,
           __THEMES__: themes,
-          ...config.serverEntry ? { __SERVER__: path.resolve(process.cwd(), config.serverEntry) } : {},
+          __SERVER__: server,
         },
       },
       module: {
