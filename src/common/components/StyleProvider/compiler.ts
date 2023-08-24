@@ -56,12 +56,14 @@ export const cssCompiler = (input: postcss.CssInJs) => {
   const _prefixer = postcss.sync([prefixer]);
   const styles: string[] = [];
   for (const [k, v] of _.toPairs(_prefixer(input))) {
+    if (_.isEmpty(k)) continue;
     const _k = k[0].toUpperCase() === k[0] ? `-${_.kebabCase(k)}` : _.kebabCase(k);
-    if (_.isEmpty(_k)) continue;
-    if (_.isString(v) || v === 0) {
-      styles.push(`${_k}: ${v};`);
-    } else if (_.isNumber(v)) {
-      styles.push(_.includes(UNITLESS, _k) ? `${_k}: ${v};` : `${_k}: ${v}px;`);
+    for (const _v of _.castArray(v)) {
+      if (_.isString(_v) || _v === 0) {
+        styles.push(`${_k}: ${_v};`);
+      } else if (_.isNumber(_v)) {
+        styles.push(_.includes(UNITLESS, _k) ? `${_k}: ${_v};` : `${_k}: ${_v}px;`);
+      }
     }
   }
   return styles.join('\n');
