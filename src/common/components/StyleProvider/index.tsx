@@ -29,6 +29,7 @@ import { DefaultStyleProvider } from '@o2ter/wireframe';
 import { useAllStyle, useTheme } from '@o2ter/react-ui';
 import { I18nManager, StyleSheet } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
+import { cssCompiler } from './compiler';
 
 const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
@@ -45,24 +46,24 @@ body {
 `;
 
 const css_mapping = {
-  marginHorizontal: ['margin-left', 'margin-right'],
-  marginVertical: ['margin-top', 'margin-bottom'],
-  paddingHorizontal: ['padding-left', 'padding-right'],
-  paddingVertical: ['padding-top', 'padding-bottom'],
+  marginHorizontal: ['marginLeft', 'marginRight'],
+  marginVertical: ['marginTop', 'marginBottom'],
+  paddingHorizontal: ['paddingLeft', 'paddingRight'],
+  paddingVertical: ['paddingTop', 'paddingBottom'],
 };
 
 const dir_mapping = (ltr: boolean) => ({
-  borderBottomEndRadius: ltr ? 'border-bottom-right-radius' : 'border-bottom-left-radius',
-  borderBottomStartRadius: ltr ? 'border-bottom-left-radius' : 'border-bottom-right-radius',
-  borderEndWidth: ltr ? 'border-right-width' : 'border-left-width',
-  borderStartWidth: ltr ? 'border-left-width' : 'border-right-width',
-  borderTopEndRadius: ltr ? 'border-top-right-radius' : 'border-top-left-radius',
-  borderTopStartRadius: ltr ? 'border-top-left-radius' : 'border-top-right-radius',
+  borderBottomEndRadius: ltr ? 'borderBottomRightRadius' : 'borderBottomLeftRadius',
+  borderBottomStartRadius: ltr ? 'borderBottomLeftRadius' : 'borderBottomRightRadius',
+  borderEndWidth: ltr ? 'borderRightWidth' : 'borderLeftWidth',
+  borderStartWidth: ltr ? 'borderLeftWidth' : 'borderRightWidth',
+  borderTopEndRadius: ltr ? 'borderTopRightRadius' : 'borderTopLeftRadius',
+  borderTopStartRadius: ltr ? 'borderTopLeftRadius' : 'borderTopRightRadius',
   end: ltr ? 'right' : 'left',
-  marginEnd: ltr ? 'margin-right' : 'margin-left',
-  marginStart: ltr ? 'margin-left' : 'margin-right',
-  paddingEnd: ltr ? 'padding-right' : 'padding-left',
-  paddingStart: ltr ? 'padding-left' : 'padding-right',
+  marginEnd: ltr ? 'marginRight' : 'marginLeft',
+  marginStart: ltr ? 'marginLeft' : 'marginRight',
+  paddingEnd: ltr ? 'paddingRight' : 'paddingLeft',
+  paddingStart: ltr ? 'paddingLeft' : 'paddingRight',
   start: ltr ? 'left' : 'right',
 });
 
@@ -104,22 +105,10 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
     let css = default_css(theme);
 
     for (const [name, style] of _.toPairs(classes)) {
-      const styles: string[] = [];
-      for (const [k, v] of _.toPairs(StyleSheet.flatten(style))) {
-        for (const _k of _.castArray(
-          css_mapping[k as keyof typeof css_mapping]
-          ?? _dir_mapping[k as keyof typeof _dir_mapping]
-          ?? _.kebabCase(k)
-        )) {
-          if (_.isEmpty(_k)) continue;
-          if (_.isString(v) || v === 0) {
-            styles.push(`${_k}: ${v};`);
-          } else if (_.isNumber(v)) {
-            styles.push(_.includes(UNITLESS, _k) ? `${_k}: ${v};` : `${_k}: ${v}px;`);
-          }
-        }
-      }
-      css += `\n.${name} {\n  ${styles.join('\n  ')}\n}`;
+      const mapped = _.mapKeys(StyleSheet.flatten(style),
+        (v, k) => css_mapping[k as keyof typeof css_mapping] ?? _dir_mapping[k as keyof typeof _dir_mapping] ?? k
+      );
+      css += `\n.${name} {\n${cssCompiler(mapped)}\n}`;
     }
 
     return css;
