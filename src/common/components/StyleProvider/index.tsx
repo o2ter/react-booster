@@ -35,13 +35,15 @@ const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
   --font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: ${theme.fontSizeBase}px;
 }
 body {
   margin: 0;
   font-family: var(--font-sans-serif);
-  background-color: ${theme.bodyBackground};
-  color: ${theme.bodyColor};
+  background-color: ${theme.root.backgroundColor};
+  font-size: ${theme.root.fontSize}px;
+  font-weight: ${theme.root.fontWeight};
+  line-height: ${theme.root.lineHeight};
+  color: ${theme.root.textColor};
 }
 `;
 
