@@ -25,7 +25,7 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { DefaultStyleProvider, htmlElementStyles } from '@o2ter/wireframe';
+import { DefaultStyleProvider, _useAllDefaultStyle, htmlElementStyles } from '@o2ter/wireframe';
 import { flattenStyle, useAllStyle, useTheme } from '@o2ter/react-ui';
 import { I18nManager } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
@@ -99,29 +99,46 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
 }) => {
 
   const theme = useTheme();
-  const { classes } = useAllStyle();
+  const _styles = _useAllDefaultStyle();
 
   const styles = React.useMemo(() => {
 
     const _dir_mapping = dir_mapping(!I18nManager.isRTL);
     let css = default_css(theme);
 
-    for (const [name, style] of _.toPairs(htmlElementStyles(classes))) {
+    const _normalStyles = _.pickBy(_styles, ({ breakpoint }) => _.isNil(breakpoint));
+    const _htmlElementStyles = htmlElementStyles(_.mapValues(_normalStyles, ({ style }) => style));
+
+    for (const [name, style] of _.toPairs(_htmlElementStyles)) {
       const mapped = _.mapKeys(flattenStyle(style),
         (v, k) => css_mapping[k as keyof typeof css_mapping] ?? _dir_mapping[k as keyof typeof _dir_mapping] ?? k
       );
       css += `\n${name} {\n${cssCompiler(mapped)}\n}`;
     }
-    for (const [name, style] of _.toPairs(classes)) {
+    for (const [name, { style, breakpoint }] of _.toPairs(_styles)) {
       const mapped = _.mapKeys(flattenStyle(style),
         (v, k) => css_mapping[k as keyof typeof css_mapping] ?? _dir_mapping[k as keyof typeof _dir_mapping] ?? k
       );
-      css += `\n.${name} {\n${cssCompiler(mapped)}\n}`;
+      if (breakpoint) {
+        css += `
+        @media (min-width: ${theme.breakpoints[breakpoint]}px) {
+          .${name} {
+            ${cssCompiler(mapped)}
+          }
+        }
+        `;
+      } else {
+        css += `
+        .${name} {
+          ${cssCompiler(mapped)}
+        }
+        `;
+      }
     }
 
     return css;
 
-  }, [classes]);
+  }, [_styles]);
 
   if (typeof window === 'undefined') {
     const ssr_context = useSSRRegister();

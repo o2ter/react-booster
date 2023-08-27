@@ -1232,10 +1232,10 @@
     events ">=3.3.0"
     lodash ">=4.17.21"
 
-"@o2ter/react-ui@^0.0.176":
-  version "0.0.176"
-  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.176.tgz#baf9516d04c890715859b2cd6359fdcf7ce8e5d9"
-  integrity sha512-fLVbrHMdD2cbeUvZAWo0h5DwVuKkmERjoCUu1otK4YF64YrZmHIUOsfIhp2VHcr/Gc0yvb8C4INsQ6rFqXQwyw==
+"@o2ter/react-ui@^0.0.192":
+  version "0.0.192"
+  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.192.tgz#e2327be8f1c6cc949ee9825ef5dc218120b9c7a5"
+  integrity sha512-kYeqrhY0RGlBxCEnnvU92spiBSgLEJ/NTMFQWZLV4JwefFeqHezKf+au3tHrx53txt3Qe2wdyw61fz9vICowBg==
   dependencies:
     "@react-native-picker/picker" ">=2.4.8"
     codemirror "^6.0.1"
@@ -1255,10 +1255,10 @@
     react-native-vector-icons ">=9.2.0"
     react-router-dom ">=6.6.2"
 
-"@o2ter/wireframe@^0.0.27":
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/@o2ter/wireframe/-/wireframe-0.0.27.tgz#2f399241592eedf0b9b888663cf925be127188f1"
-  integrity sha512-aznthis9BzSo8cjYFDNF66p0p7dbNK+G4x8/nHQim8lrFrZPJT24gLlEqSy1YSuh7nESiZu3RpCHHe6o9sZkJA==
+"@o2ter/wireframe@^0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@o2ter/wireframe/-/wireframe-0.0.29.tgz#66d4ae8eb8b3df90c9730f5b495f5b495de467d1"
+  integrity sha512-BUh04zB43jhKLc3AKJaSiusfR13yGZBJnOEVDkniFTFiZYHTZUYaLKWpbHy2rQMvAH+pPfvQgZ0Pr84ZzXEG+A==
   dependencies:
     lodash ">=4.17.21"
 
