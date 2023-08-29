@@ -52,8 +52,9 @@ const UNITLESS = [
   'stroke-width',
 ];
 
+const _prefixer = postcss.sync([prefixer]);
+
 export const cssCompiler = (input: postcss.CssInJs) => {
-  const _prefixer = postcss.sync([prefixer]);
   const styles: string[] = [];
   for (const [k, v] of _.toPairs(_prefixer(input))) {
     if (_.isEmpty(k)) continue;
