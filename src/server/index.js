@@ -38,10 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const react_env = {};
 let __SERVER__ = {};
-try {
-  __SERVER__ = await import('__SERVER__');
-  if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
-} catch {}
+try { __SERVER__ = await import('__SERVER__'); } catch {};
+if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
 
 for (const [name, { path, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {
