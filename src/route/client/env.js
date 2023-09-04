@@ -26,8 +26,10 @@
 import { decompress } from '../minify/decompress';
 import { deserialize } from 'proto.io/dist/client';
 
-let env;
-env = {};
+/**
+ * @type {any}
+*/
+let env = {};
 
 if (typeof document !== 'undefined') {
   const envElement = document.getElementById('env');
