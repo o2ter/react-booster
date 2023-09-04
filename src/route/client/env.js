@@ -1,5 +1,5 @@
 //
-//  env.ts
+//  env.js
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2023 O2ter Limited. All rights reserved.
@@ -26,10 +26,11 @@
 import { decompress } from '../minify/decompress';
 import { deserialize } from 'proto.io/dist/client';
 
-let env: any = {};
+let env;
+env = {};
 
 if (typeof document !== 'undefined') {
-  const envElement = document.getElementById('env') as HTMLScriptElement;
+  const envElement = document.getElementById('env');
   env = deserialize(decompress(envElement.text));
   envElement.remove();
 }
