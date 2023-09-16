@@ -26,7 +26,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider, _useAllDefaultStyle, htmlElementStyles } from '@o2ter/wireframe';
-import { flattenStyle, useAllStyle, useTheme } from '@o2ter/react-ui';
+import { flattenStyle, useTheme } from '@o2ter/react-ui';
 import { I18nManager } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
 import { cssCompiler } from './compiler';
