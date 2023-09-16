@@ -107,7 +107,7 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
     let css = default_css(theme);
 
     const _normalStyles = _.pickBy(_styles, ({ breakpoint }) => _.isNil(breakpoint));
-    const _htmlElementStyles = htmlElementStyles(_.mapValues(_normalStyles, ({ style }) => style));
+    const _htmlElementStyles = htmlElementStyles(theme, _.mapValues(_normalStyles, ({ style }) => style));
 
     for (const [name, style] of _.toPairs(_htmlElementStyles)) {
       const mapped = _.mapKeys(flattenStyle(style),
