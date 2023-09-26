@@ -40,8 +40,8 @@ const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers,
 const appProviders = [
   ThemeProvider,
   StyleProvider,
-  ActivityIndicatorProvider,
   ToastProvider,
+  ActivityIndicatorProvider,
   ModalProvider,
 ]
 
