@@ -44,10 +44,10 @@ export const ThemeProvider = ({
 }) => {
 
   const selected_theme = themes[useColorScheme()] ?? defaultScheme.light;
-  const { styles, ...variables } = ThemeList[selected_theme] ?? {};
+  const { palette, ...variables } = ThemeList[selected_theme] ?? {};
 
   return (
-    <_ThemeProvider variables={variables} styles={styles}>
+    <_ThemeProvider variables={variables} palette={palette}>
       {children}
     </_ThemeProvider>
   );
