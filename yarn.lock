@@ -1232,12 +1232,13 @@
     events ">=3.3.0"
     lodash ">=4.17.21"
 
-"@o2ter/react-ui@^0.0.236":
-  version "0.0.236"
-  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.236.tgz#afa0aaabadd889d271522b32c564303a4a0ebedb"
-  integrity sha512-6e+5PxSZhf6G3F47iVaIMY43JaPKv49qQsqhjmkfxKjl07nNectXglmCg2lNBJxZPAZ/ZjMolSHOXkmYDYTFRg==
+"@o2ter/react-ui@^0.0.251":
+  version "0.0.251"
+  resolved "https://registry.yarnpkg.com/@o2ter/react-ui/-/react-ui-0.0.251.tgz#8b2373e666cae598ade988349b9c5659286a8c03"
+  integrity sha512-1zTPMpc/P0K4Oz0adWY6k0FrfIYnAXeZxSZcYHKEPJx7Yg7Q/HAKCoTia0j4FYMGBk7latPV0R5k/c7L7YrLKQ==
   dependencies:
     "@react-native-picker/picker" ">=2.4.8"
+    "@react-native/normalize-color" "^2.1.0"
     codemirror "^6.0.1"
     d3-dsv "^3.0.1"
     jsbarcode ">=3.11.5"
@@ -1246,7 +1247,6 @@
     lottie-react-native ">=5.1.4"
     lottie-web ">=5.10.1"
     luxon ">=3.2.1"
-    normalize-css-color ">=1.0.2"
     qrcode ">=1.5.1"
     react-dom ">=18.2.0"
     react-native-fast-image ">=8.6.3"
@@ -3694,11 +3694,6 @@ nopt@~1.0.10:
   integrity sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==
   dependencies:
     abbrev "1"
-
-normalize-css-color@>=1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/normalize-css-color/-/normalize-css-color-1.0.2.tgz#02991e97cccec6623fe573afbbf0de6a1f3e9f8d"
-  integrity sha512-jPJ/V7Cp1UytdidsPqviKEElFQJs22hUUgK5BOPHTwOonNCk7/2qOxhhqzEajmFrWJowADFfOFh1V+aWkRfy+w==
 
 normalize-package-data@^2.3.2:
   version "2.5.0"

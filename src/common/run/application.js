@@ -32,7 +32,7 @@ import {
 } from '../components';
 import {
   ActivityIndicatorProvider,
-  PopoverProvider,
+  OverlayProvider,
   ModalProvider,
   ToastProvider,
 } from '@o2ter/react-ui';
@@ -43,7 +43,7 @@ const appProviders = [
   StyleProvider,
   ToastProvider,
   ActivityIndicatorProvider,
-  PopoverProvider,
+  OverlayProvider,
   ModalProvider,
 ]
 
