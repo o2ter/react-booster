@@ -32,6 +32,7 @@ import {
 } from '../components';
 import {
   ActivityIndicatorProvider,
+  OffcanvasProvider,
   OverlayProvider,
   ModalProvider,
   ToastProvider,
@@ -45,6 +46,7 @@ const appProviders = [
   ActivityIndicatorProvider,
   OverlayProvider,
   ModalProvider,
+  OffcanvasProvider,
 ]
 
 export default (App) => () => <ProviderChain providers={appProviders}><App /></ProviderChain>;
