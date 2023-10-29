@@ -26,10 +26,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-import {
-  ThemeProvider,
-  StyleProvider,
-} from '../components';
+import { ThemeProvider } from '../components';
 import {
   ActivityIndicatorProvider,
   OffcanvasProvider,
@@ -41,7 +38,6 @@ import {
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
   ThemeProvider,
-  StyleProvider,
   ToastProvider,
   ActivityIndicatorProvider,
   OverlayProvider,

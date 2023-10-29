@@ -169,10 +169,15 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   );
 }
 
-export const StyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
+type StyleProviderProps = React.PropsWithChildren<{
+  gridColumns?: number;
+}>;
+
+export const StyleProvider: React.FC<StyleProviderProps> = ({
+  gridColumns,
   children
 }) => (
-  <DefaultStyleProvider>
+  <DefaultStyleProvider gridColumns={gridColumns}>
     <CSSStyleProvider>{children}</CSSStyleProvider>
   </DefaultStyleProvider>
 );
