@@ -49,7 +49,7 @@ export const ThemeProvider = ({
 
   return (
     <_ThemeProvider variables={variables} palette={palette}>
-      <StyleProvider gridColumns={gridColumns ?? 12}>{children}</StyleProvider>
+      <StyleProvider gridColumns={gridColumns}>{children}</StyleProvider>
     </_ThemeProvider>
   );
 }
