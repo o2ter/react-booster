@@ -69,31 +69,6 @@ const dir_mapping = (ltr: boolean) => ({
   start: ltr ? 'left' : 'right',
 });
 
-const UNITLESS = [
-  'box-flex',
-  'box-flex-group',
-  'column-count',
-  'flex',
-  'flex-grow',
-  'flex-positive',
-  'flex-shrink',
-  'flex-negative',
-  'font-weight',
-  'line-clamp',
-  'line-height',
-  'opacity',
-  'order',
-  'orphans',
-  'tab-size',
-  'widows',
-  'z-index',
-  'zoom',
-  'fill-opacity',
-  'stroke-dashoffset',
-  'stroke-opacity',
-  'stroke-width',
-];
-
 const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
 }) => {
