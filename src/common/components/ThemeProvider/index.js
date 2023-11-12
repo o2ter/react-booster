@@ -34,17 +34,17 @@ import { StyleProvider } from '../StyleProvider';
 const DEFAULT_THEME = process.env.DEFAULT_THEME ?? _.first(_.keys(ThemeList));
 const DEFAULT_DARK_THEME = process.env.DEFAULT_DARK_THEME ?? DEFAULT_THEME;
 
-const defaultScheme = {
+const defaultTheme = {
   light: DEFAULT_THEME,
   dark: DEFAULT_DARK_THEME,
 };
 
 export const ThemeProvider = ({
-  themes = defaultScheme,
+  themes = defaultTheme,
   children
 }) => {
 
-  const selected_theme = themes[useColorScheme()] ?? defaultScheme.light;
+  const selected_theme = themes[useColorScheme()] ?? defaultTheme.light;
   const { palette, gridColumns, ...variables } = ThemeList[selected_theme] ?? {};
 
   return (
