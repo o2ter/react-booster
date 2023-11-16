@@ -29,26 +29,27 @@ import { ThemeProvider as _ThemeProvider } from '@o2ter/react-ui';
 import { useColorScheme } from '../../hooks/useColorScheme';
 
 import ThemeList from '__THEMES__';
+import { StyleProvider } from '../StyleProvider';
 
 const DEFAULT_THEME = process.env.DEFAULT_THEME ?? _.first(_.keys(ThemeList));
 const DEFAULT_DARK_THEME = process.env.DEFAULT_DARK_THEME ?? DEFAULT_THEME;
 
-const defaultScheme = {
+const defaultTheme = {
   light: DEFAULT_THEME,
   dark: DEFAULT_DARK_THEME,
 };
 
 export const ThemeProvider = ({
-  themes = defaultScheme,
+  themes = defaultTheme,
   children
 }) => {
 
-  const selected_theme = themes[useColorScheme()] ?? defaultScheme.light;
-  const { palette, ...variables } = ThemeList[selected_theme] ?? {};
+  const selected_theme = themes[useColorScheme()] ?? defaultTheme.light;
+  const { palette, gridColumns, ...variables } = ThemeList[selected_theme] ?? {};
 
   return (
     <_ThemeProvider variables={variables} palette={palette}>
-      {children}
+      <StyleProvider gridColumns={gridColumns}>{children}</StyleProvider>
     </_ThemeProvider>
   );
 }
