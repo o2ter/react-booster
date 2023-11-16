@@ -34,7 +34,7 @@ import * as __APPLICATIONS__ from '__APPLICATIONS__';
 const app = express();
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
 const react_env = {};
 let __SERVER__ = {};
