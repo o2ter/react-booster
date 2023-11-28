@@ -32,13 +32,13 @@ import {
   OffcanvasProvider,
   OverlayProvider,
   ModalProvider,
-  ToastProvider,
+  AlertProvider,
 } from '@o2ter/react-ui';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
   ThemeProvider,
-  ToastProvider,
+  AlertProvider,
   ActivityIndicatorProvider,
   OverlayProvider,
   ModalProvider,
