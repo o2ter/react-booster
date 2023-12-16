@@ -59,5 +59,7 @@ for (const [name, { path, env }] of _.toPairs(__applications__)) {
   }
 }
 
+const PORT = !_.isEmpty(process.env.PORT) ? parseInt(process.env.PORT) : 8080;
+
 const httpServer = require('http').createServer(app);
-httpServer.listen(8080, () => console.log('listening on port 8080'));
+httpServer.listen(PORT, () => console.info(`listening on port ${PORT}`));
