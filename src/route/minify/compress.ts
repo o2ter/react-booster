@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 //
 
+// @ts-nocheck
 function _compress(r, e, o) {
   if (null == r) return "";
   var t, a, h, f = {},
@@ -78,4 +79,4 @@ function _compress(r, e, o) {
 
 const altAlpha = ":;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz";
 
-export const compress = (r) => _compress(r, 6, r => altAlpha.charAt(r));
+export const compress = (r: string) => _compress(r, 6, r => altAlpha.charAt(r));

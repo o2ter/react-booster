@@ -23,7 +23,8 @@
 //  THE SOFTWARE.
 //
 
-export const decompress = (o) => {
+// @ts-nocheck
+export const decompress = (o: string) => {
   function r(r) {
     for (i = f = 0; i < r; )
       A < 2 && ((A = 64), (a = 92 < (a = o.charCodeAt(C++)) ? a - 59 : a - 58)),
