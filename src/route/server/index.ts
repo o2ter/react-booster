@@ -56,7 +56,7 @@ export const ReactRoute = (App: any, {
       jsSrc,
       cssSrc,
       preferredLocale: _preferredLocale,
-      location: req.path,
+      location: req.originalUrl,
       resources: await resources?.(req),
     }));
   });
