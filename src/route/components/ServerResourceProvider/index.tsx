@@ -23,15 +23,17 @@
 //  THE SOFTWARE.
 //
 
+import _ from 'lodash';
 import React from 'react';
 import { ServerResourceContext } from './context';
 
-const initState = typeof window === 'undefined' ? null : window.history.state;
+let initState: any;
 
 export const useServerResource = () => {
   const resource = React.useContext(ServerResourceContext);
-  if (typeof window !== 'undefined' && initState !== window.history.state) {
-    return {};
+  if (typeof window !== 'undefined') {
+    if (_.isNil(initState)) initState = window.history.state;
+    if (initState !== window.history.state) return {};
   }
   return resource;
 }
