@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { I18nProvider } from '@o2ter/i18n';
 import { AppRegistry } from 'react-native';
-import { StaticNavigator } from '@o2ter/react-ui';
+import { StaticNavigator, __FONTS__ } from '@o2ter/react-ui';
 import { SafeAreaProvider } from '../safeArea';
 import { compress } from '../minify/compress';
 import { serialize } from 'proto.io';
@@ -69,6 +69,15 @@ export function renderToHTML(App, {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
         ${title}${meta_string}${injectedStyle}
+        <style>
+        ${_.map(_.toPairs(__FONTS__), ([name, url]) => `
+          @font-face {
+            src: url(${url});
+            font-family: ${name};
+          }
+        `).join('')}
+        </style>
+        ${_.map(_.values(__FONTS__), url => `<link rel="preload" href="${url}" as="font" />`).join('\n')}
         <link rel="stylesheet" href="${cssSrc}" />
         ${css}
       </head>
