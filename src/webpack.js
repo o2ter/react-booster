@@ -115,9 +115,11 @@ module.exports = (env, argv) => {
       topLevelAwait: true,
     },
     resolve: {
+      ...config.options?.resolve ?? {},
       alias: {
         'react-native$': 'react-native-web',
         'url': 'whatwg-url',
+        ...config.options?.resolve?.alias ?? {},
       },
       extensions: [
         '.web.tsx', '.web.jsx', '.tsx', '.tsx',
