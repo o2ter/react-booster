@@ -26,7 +26,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { DefaultStyleProvider, _useAllDefaultStyle, htmlElementStyles } from '@o2ter/wireframe';
-import { flattenStyle, useTheme } from '@o2ter/react-ui';
+import { flattenStyle, useTheme, _CSSNameProvider } from '@o2ter/react-ui';
 import { I18nManager } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
 import { cssCompiler } from './compiler';
@@ -76,13 +76,15 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const theme = useTheme();
   const _styles = _useAllDefaultStyle();
 
-  const styles = React.useMemo(() => {
+  const [names, styles] = React.useMemo(() => {
 
     const _dir_mapping = dir_mapping(!I18nManager.isRTL);
     let css = default_css(theme);
 
     const _normalStyles = _.pickBy(_styles, ({ breakpoint }) => _.isNil(breakpoint));
     const _htmlElementStyles = htmlElementStyles(theme, _.mapValues(_normalStyles, ({ style }) => style));
+
+    const names = _.uniq([..._.keys(_htmlElementStyles), ..._.keys(_styles)]);
 
     for (const [name, style] of _.toPairs(_htmlElementStyles)) {
       const mapped = _.mapKeys(flattenStyle(style),
@@ -111,7 +113,7 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
       }
     }
 
-    return css;
+    return [names, css];
 
   }, [_styles]);
 
@@ -140,7 +142,7 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   }, [styles]);
 
   return (
-    <>{children}</>
+    <_CSSNameProvider classes={names}>{children}</_CSSNameProvider>
   );
 }
 
