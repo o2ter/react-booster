@@ -68,7 +68,7 @@ export function renderToHTML(App, {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
-        ${title}${meta_string}${injectedStyle}
+        ${title}${meta_string}
         <style>
         ${_.map(_.toPairs(__FONTS__), ([name, url]) => `
           @font-face {
@@ -79,7 +79,7 @@ export function renderToHTML(App, {
         </style>
         ${_.map(_.values(__FONTS__), url => `<link rel="preload" href="${url}" as="font" />`).join('\n')}
         <link rel="stylesheet" href="${cssSrc}" />
-        ${css}
+        ${css}${injectedStyle}
       </head>
       <body>
         <div id="root">${html}</div>

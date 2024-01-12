@@ -129,13 +129,7 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
     const stylesheet = document.createElement('style');
     stylesheet.textContent = styles;
-
-    const [first] = document.head.querySelectorAll('style, link[rel="stylesheet"]');
-    if (first) {
-      document.head.insertBefore(stylesheet, first);
-    } else {
-      document.head.appendChild(stylesheet);
-    }
+    document.head.appendChild(stylesheet);
 
     return () => stylesheet.remove();
 
