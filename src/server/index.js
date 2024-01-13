@@ -26,19 +26,21 @@
 import _ from 'lodash';
 import path from 'path';
 import express from 'express';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import { ReactRoute } from '../route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
 const app = express();
+app.use(compression());
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
 const react_env = {};
 let __SERVER__ = {};
-try { __SERVER__ = await import('__SERVER__'); } catch {};
+try { __SERVER__ = await import('__SERVER__'); } catch { };
 if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
 
 for (const [name, { path, env }] of _.toPairs(__applications__)) {
