@@ -7,7 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -98,10 +98,10 @@ module.exports = (env, argv) => {
     optimization: {
       minimize: IS_PRODUCTION,
       minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({
           parallel: true,
           extractComments: false,
-          uglifyOptions: {
+          terserOptions: {
             sourceMap: false,
             compress: true,
             format: {
