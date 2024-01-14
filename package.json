@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@o2ter/i18n": "^0.0.10",
-    "@o2ter/react-ui": "^0.0.314",
+    "@o2ter/react-ui": "^0.0.315",
     "@o2ter/wireframe": "^0.0.52",
     "@types/cookie-parser": "^1.4.6",
     "@types/express": "^4.17.17",
