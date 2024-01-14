@@ -68,6 +68,8 @@ export function renderToHTML(App, {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+        <script src="${jsSrc}" defer></script>
+        <link rel="stylesheet" href="${cssSrc}" />
         ${title}${meta_string}
         <style>
         ${_.map(_.toPairs(__FONTS__), ([name, url]) => `
@@ -78,14 +80,12 @@ export function renderToHTML(App, {
         `).join('')}
         </style>
         ${_.map(_.values(__FONTS__), url => `<link rel="preload" href="${url}" as="font" />`).join('\n')}
-        <link rel="stylesheet" href="${cssSrc}" />
         ${css}${injectedStyle}
       </head>
       <body>
         <div id="root">${html}</div>
         <script id="env" type="text/plain">${compress(serialize(env))}</script>
         <script id="resources" type="text/plain">${compress(serialize(resources))}</script>
-        <script src="${jsSrc}"></script>
       </body>
     </html>
   `;
