@@ -31,6 +31,7 @@ module.exports = (env, argv) => {
             '@babel/preset-react',
             {
               development: !IS_PRODUCTION,
+              runtime: 'automatic',
             },
           ],
           '@babel/preset-typescript',
