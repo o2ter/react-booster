@@ -34,6 +34,7 @@ import {
   ModalProvider,
   AlertProvider,
 } from '@o2ter/react-ui';
+import { LayoutProvider } from '@o2ter/wireframe';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
@@ -43,6 +44,7 @@ const appProviders = [
   OverlayProvider,
   ModalProvider,
   OffcanvasProvider,
+  LayoutProvider,
 ]
 
 export default (App) => () => <ProviderChain providers={appProviders}><App /></ProviderChain>;
