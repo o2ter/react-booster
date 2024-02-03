@@ -27,7 +27,7 @@ export function defaultPreferredLocale(req) {
   }
 }
 export function renderToHTML(App, {
-  env, jsSrc, cssSrc, location, preferredLocale, resources,
+  env, jsSrc, cssSrc, basename, location, preferredLocale, resources,
 }) {
 
   const ssr_context = {};
@@ -37,7 +37,7 @@ export function renderToHTML(App, {
     <SSRRegister context={ssr_context}>
       <ServerResourceContext.Provider value={resources}>
         <I18nProvider preferredLocale={preferredLocale}>
-          <StaticNavigator location={location} context={context}>
+          <StaticNavigator basename={basename} location={location} context={context}>
             <SafeAreaProvider><App /></SafeAreaProvider>
           </StaticNavigator>
         </I18nProvider>
@@ -84,8 +84,7 @@ export function renderToHTML(App, {
       </head>
       <body>
         <div id="root">${html}</div>
-        <script id="env" type="text/plain">${compress(serialize(env))}</script>
-        <script id="resources" type="text/plain">${compress(serialize(resources))}</script>
+        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources }))}</script>
       </body>
     </html>
   `;

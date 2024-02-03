@@ -29,7 +29,23 @@ import { AppRegistry } from 'react-native';
 import { BrowserNavigator } from '@o2ter/react-ui';
 import { SafeAreaProvider } from '../safeArea';
 import { ServerResourceContext } from '../components/ServerResourceProvider/context';
-import { resources } from './resources';
+
+import { decompress } from '../minify/decompress';
+import { deserialize } from 'proto.io/dist/client';
+
+const __SSR_DATA__: any = typeof document !== 'undefined' ? (() => {
+  const element: any = document.getElementById('__SSR_DATA__');
+  element.remove();
+  return deserialize(decompress(element.text));
+})() : {};
+
+const {
+  env = {},
+  resources = {},
+  basename,
+} = __SSR_DATA__;
+
+export { env };
 
 export const runApplication = (App: React.FunctionComponent) => {
 
@@ -40,7 +56,7 @@ export const runApplication = (App: React.FunctionComponent) => {
       <I18nProvider
         preferredLocale={preferredLocale}
         onChange={locale => document.cookie = `PREFERRED_LOCALE=${locale}; max-age=31536000; path=/`}>
-        <BrowserNavigator>
+        <BrowserNavigator basename={basename}>
           <SafeAreaProvider><App /></SafeAreaProvider>
         </BrowserNavigator>
       </I18nProvider>

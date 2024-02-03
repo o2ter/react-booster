@@ -38,19 +38,20 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
-const react_env = {};
+const server_env = {};
 let __SERVER__ = {};
 try { __SERVER__ = await import('__SERVER__'); } catch { };
-if ('default' in __SERVER__) await __SERVER__.default(app, react_env);
+if ('default' in __SERVER__) await __SERVER__.default(app, server_env);
 
-for (const [name, { path, env }] of _.toPairs(__applications__)) {
+for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {
     env: {
-      ...react_env,
+      ...server_env,
       ...env,
     },
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
+    basename: basename ?? '/',
     preferredLocale: 'preferredLocale' in __SERVER__ ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
     resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
   });

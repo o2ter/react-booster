@@ -33,6 +33,7 @@ type ReactRouteOptions = {
   env: any;
   jsSrc: string;
   cssSrc: string;
+  basename: string;
   preferredLocale?: (req: Request) => Awaitable<string | undefined>;
   resources?: (req: Request) => Awaitable<any>;
 }
@@ -41,6 +42,7 @@ export const ReactRoute = (App: any, {
   env = {},
   jsSrc = '/bundle.js',
   cssSrc = '/css/bundle.css',
+  basename,
   preferredLocale = defaultPreferredLocale,
   resources,
 }: ReactRouteOptions) => {
@@ -55,8 +57,9 @@ export const ReactRoute = (App: any, {
       env,
       jsSrc,
       cssSrc,
-      preferredLocale: _preferredLocale,
+      basename,
       location: req.originalUrl,
+      preferredLocale: _preferredLocale,
       resources: await resources?.(req),
     }));
   });
