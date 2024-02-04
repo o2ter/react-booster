@@ -192,6 +192,7 @@ module.exports = (env, argv) => {
         new webpack.DefinePlugin({
           __applications__: JSON.stringify(_.mapValues(config.client, x => ({
             path: x.uri,
+            basename: x.basename,
             env: x.env ?? {},
           }))),
         }),
