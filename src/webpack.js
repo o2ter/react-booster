@@ -122,11 +122,6 @@ module.exports = (env, argv) => {
         'url': 'whatwg-url',
         ...config.options?.resolve?.alias ?? {},
       },
-      extensions: [
-        '.web.tsx', '.web.jsx', '.tsx', '.tsx',
-        '.web.ts', '.web.mjs', '.web.js',
-        '.ts', '.ts', '.mjs', '...'
-      ]
     },
     output: {
       path: path.join(config.output, 'public'),
@@ -172,6 +167,13 @@ module.exports = (env, argv) => {
           __APPLICATION__: path.resolve(process.cwd(), entry),
           __THEMES__: themes,
         },
+        extensions: [
+          '.web.tsx', '.web.jsx',
+          '.tsx', '.tsx',
+          '.web.ts', '.web.mjs', '.web.js',
+          '.ts', '.ts', '.mjs',
+          '...'
+        ],
       },
       module: {
         rules: [
@@ -206,6 +208,15 @@ module.exports = (env, argv) => {
           __THEMES__: themes,
           __SERVER__: server,
         },
+        extensions: [
+          '.server.tsx', '.server.jsx',
+          '.web.tsx', '.web.jsx',
+          '.tsx', '.tsx',
+          '.server.ts', '.server.mjs', '.server.js',
+          '.web.ts', '.web.mjs', '.web.js',
+          '.ts', '.ts', '.mjs',
+          '...'
+        ],
       },
       module: {
         rules: [
