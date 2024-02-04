@@ -32,12 +32,12 @@ import { TSerializable } from 'proto.io/dist/client';
 
 let initState: any;
 
-export const useServerResource = <T extends NonNullable<TSerializable>>(
+export const useServerResource = <T extends NonNullable<TSerializable> = any>(
   key: string,
-  callback: (request: Request) => Awaitable<T>,
+  callback?: (request: Request) => Awaitable<T>,
 ): T | undefined => {
-  const { resource } = React.useContext(ServerResourceContext);
+  const { resources } = React.useContext(ServerResourceContext);
   if (_.isNil(initState)) initState = window.history.state;
   if (initState !== window.history.state) return;
-  return resource[key];
+  return resources[key];
 }

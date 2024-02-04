@@ -43,11 +43,12 @@ export const renderToHTML = async (App, {
   cssSrc,
   basename,
   preferredLocale,
+  resources: _resources,
 }) => {
 
   const ssr_context = {};
   const context = {};
-  const resources = { request: req, resource: {} };
+  const resources = { request: req, resources: _resources ?? {} };
 
   const Main = () => (
     <SSRRegister context={ssr_context}>
@@ -105,7 +106,7 @@ export const renderToHTML = async (App, {
       </head>
       <body>
         <div id="root">${html}</div>
-        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources: resources.resource }))}</script>
+        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources: resources.resources }))}</script>
       </body>
     </html>
   `;

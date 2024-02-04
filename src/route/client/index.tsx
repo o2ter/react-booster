@@ -47,7 +47,7 @@ const {
 
 export { env };
 
-const _resources = { resource: resources };
+const _resources = { resources };
 
 export const runApplication = (App: React.FunctionComponent) => {
 

@@ -28,7 +28,7 @@ import type { Request } from 'express';
 
 export const ServerResourceContext = React.createContext<{
   request?: Request;
-  resource: Record<string, any>;
-}>({ resource: {} });
+  resources: Record<string, any>;
+}>({ resources: {} });
 
 ServerResourceContext.displayName = 'ServerResourceContext';

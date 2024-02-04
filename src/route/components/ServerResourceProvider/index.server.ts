@@ -31,15 +31,15 @@ import { Awaitable } from 'sugax';
 import { TSerializable } from 'proto.io';
 import { isPromiseLike } from '../../utils';
 
-export const useServerResource = <T extends NonNullable<TSerializable>>(
+export const useServerResource = <T extends NonNullable<TSerializable> = any>(
   key: string,
-  callback: (request: Request) => Awaitable<T>,
+  callback?: (request: Request) => Awaitable<T>,
 ): T | undefined => {
-  const { request, resource } = React.useContext(ServerResourceContext);
-  if (_.isNil(resource[key])) {
+  const { request, resources } = React.useContext(ServerResourceContext);
+  if (_.isFunction(callback) && _.isNil(resources[key])) {
     const result = callback(request!);
-    resource[key] = isPromiseLike(result) ? Promise.resolve(result) : result;
+    resources[key] = isPromiseLike(result) ? Promise.resolve(result) : result;
   }
-  if (isPromiseLike(resource[key])) return;
-  return resource[key];
+  if (isPromiseLike(resources[key])) return;
+  return resources[key];
 }
