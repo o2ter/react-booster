@@ -1,5 +1,5 @@
 //
-//  context.ts
+//  index.ts
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2024 O2ter Limited. All rights reserved.
@@ -23,12 +23,21 @@
 //  THE SOFTWARE.
 //
 
+import _ from 'lodash';
 import React from 'react';
 import type { Request } from 'express';
+import { ServerResourceContext } from './context';
+import { Awaitable } from 'sugax';
+import { TSerializable } from 'proto.io/dist/client';
 
-export const ServerResourceContext = React.createContext<{
-  request?: Request;
-  resource: Record<string, any>;
-}>({ resource: {} });
+let initState: any;
 
-ServerResourceContext.displayName = 'ServerResourceContext';
+export const useServerResource = <T extends NonNullable<TSerializable>>(
+  key: string,
+  callback: (request: Request) => Awaitable<T>,
+): T | undefined => {
+  const { resource } = React.useContext(ServerResourceContext);
+  if (_.isNil(initState)) initState = window.history.state;
+  if (initState !== window.history.state) return;
+  return resource[key];
+}

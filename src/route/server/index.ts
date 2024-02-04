@@ -23,10 +23,10 @@
 //  THE SOFTWARE.
 //
 
+import _ from 'lodash';
 import express, { Request } from 'express';
 import cookieParser from 'cookie-parser';
-
-import { defaultPreferredLocale, renderToHTML } from './render';
+import { renderToHTML } from './render';
 import { Awaitable } from 'sugax';
 
 type ReactRouteOptions = {
@@ -35,7 +35,18 @@ type ReactRouteOptions = {
   cssSrc: string;
   basename: string;
   preferredLocale?: (req: Request) => Awaitable<string | undefined>;
-  resources?: (req: Request) => Awaitable<any>;
+}
+
+const defaultPreferredLocale = (req: Request) => {
+  if (_.isString(req.cookies['PREFERRED_LOCALE'])) {
+    return req.cookies['PREFERRED_LOCALE'];
+  }
+  if (_.isString(req.headers['accept-language'])) {
+    const acceptLanguage = req.headers['accept-language'].split(',');
+    for (const language of acceptLanguage) {
+      return language.split(';')[0].trim();
+    }
+  }
 }
 
 export const ReactRoute = (App: any, {
@@ -44,7 +55,6 @@ export const ReactRoute = (App: any, {
   cssSrc = '/css/bundle.css',
   basename,
   preferredLocale = defaultPreferredLocale,
-  resources,
 }: ReactRouteOptions) => {
 
   const router = express.Router();
@@ -53,14 +63,13 @@ export const ReactRoute = (App: any, {
   router.get('*', async (req, res) => {
     const _preferredLocale = await preferredLocale(req);
     res.cookie('PREFERRED_LOCALE', _preferredLocale, { maxAge: 31536000 });
-    res.send(renderToHTML(App, {
+    res.send(await renderToHTML(App, {
+      req,
       env,
       jsSrc,
       cssSrc,
       basename,
-      location: req.originalUrl,
       preferredLocale: _preferredLocale,
-      resources: await resources?.(req),
     }));
   });
 

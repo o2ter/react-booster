@@ -47,12 +47,14 @@ const {
 
 export { env };
 
+const _resources = { resource: resources };
+
 export const runApplication = (App: React.FunctionComponent) => {
 
   const preferredLocale = document.cookie.split('; ').find((row) => row.startsWith('PREFERRED_LOCALE='))?.split('=')[1];
 
   const Main = () => (
-    <ServerResourceContext.Provider value={resources}>
+    <ServerResourceContext.Provider value={_resources}>
       <I18nProvider
         preferredLocale={preferredLocale}
         onChange={locale => document.cookie = `PREFERRED_LOCALE=${locale}; max-age=31536000; path=/`}>

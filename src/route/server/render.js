@@ -1,43 +1,59 @@
+//
+//  render.ts
+//
+//  The MIT License
+//  Copyright (c) 2021 - 2024 O2ter Limited. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//
+
 import _ from 'lodash';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { I18nProvider } from '@o2ter/i18n';
 import { AppRegistry } from 'react-native';
 import { StaticNavigator, __FONTS__ } from '@o2ter/react-ui';
+import { isPromiseLike } from '../utils';
 import { SafeAreaProvider } from '../safeArea';
 import { compress } from '../minify/compress';
 import { serialize } from 'proto.io';
 import { ServerResourceContext } from '../components/ServerResourceProvider/context';
 import { SSRRegister } from '../../common/components/SSRRegister';
 
-export function defaultPreferredLocale(req) {
-
-  if (_.isString(req.cookies['PREFERRED_LOCALE'])) {
-    return req.cookies['PREFERRED_LOCALE'];
-  }
-
-  if (_.isString(req.headers['accept-language'])) {
-
-    const acceptLanguage = req.headers['accept-language'].split(',');
-
-    for (const language of acceptLanguage) {
-
-      return language.split(';')[0].trim();
-    }
-  }
-}
-export function renderToHTML(App, {
-  env, jsSrc, cssSrc, basename, location, preferredLocale, resources,
-}) {
+export const renderToHTML = async (App, {
+  req,
+  env,
+  jsSrc,
+  cssSrc,
+  basename,
+  preferredLocale,
+}) => {
 
   const ssr_context = {};
   const context = {};
+  const resources = { request: req, resource: {} };
 
   const Main = () => (
     <SSRRegister context={ssr_context}>
       <ServerResourceContext.Provider value={resources}>
         <I18nProvider preferredLocale={preferredLocale}>
-          <StaticNavigator basename={basename} location={location} context={context}>
+          <StaticNavigator basename={basename} location={req.originalUrl} context={context}>
             <SafeAreaProvider><App /></SafeAreaProvider>
           </StaticNavigator>
         </I18nProvider>
@@ -48,7 +64,12 @@ export function renderToHTML(App, {
   AppRegistry.registerComponent('App', () => Main);
   const { element, getStyleElement } = AppRegistry.getApplication('App');
 
-  const html = ReactDOMServer.renderToString(element);
+  let html = ReactDOMServer.renderToString(element);
+  while (_.some(_.values(resources.resource), x => isPromiseLike(x))) {
+    resources.resource = _.fromPairs(await Promise.all(_.map(resources.resource, async (v, k) => [k, await v])));
+    html = ReactDOMServer.renderToString(element);
+  }
+
   const css = ReactDOMServer.renderToStaticMarkup(getStyleElement());
 
   const title = _.isString(context.title) ? `<title>${context.title}</title>` : '';
@@ -84,7 +105,7 @@ export function renderToHTML(App, {
       </head>
       <body>
         <div id="root">${html}</div>
-        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources }))}</script>
+        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources: resources.resource }))}</script>
       </body>
     </html>
   `;

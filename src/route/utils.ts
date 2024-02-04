@@ -1,5 +1,5 @@
 //
-//  index.tsx
+//  utils.ts
 //
 //  The MIT License
 //  Copyright (c) 2021 - 2024 O2ter Limited. All rights reserved.
@@ -23,17 +23,4 @@
 //  THE SOFTWARE.
 //
 
-import _ from 'lodash';
-import React from 'react';
-import { ServerResourceContext } from './context';
-
-let initState: any;
-
-export const useServerResource = () => {
-  const resource = React.useContext(ServerResourceContext);
-  if (typeof window !== 'undefined') {
-    if (_.isNil(initState)) initState = window.history.state;
-    if (initState !== window.history.state) return {};
-  }
-  return resource;
-}
+export const isPromiseLike = (p: any): p is PromiseLike<any> => typeof p === 'object' && typeof p.then === 'function';
