@@ -37,7 +37,8 @@ import { ServerResourceContext } from '../components/ServerResourceProvider/cont
 import { SSRRegister } from '../../common/components/SSRRegister';
 
 export const renderToHTML = async (App, {
-  req,
+  request,
+  response,
   env,
   jsSrc,
   cssSrc,
@@ -48,13 +49,13 @@ export const renderToHTML = async (App, {
 
   const ssr_context = {};
   const context = {};
-  const resources = { request: req, resources: _resources ?? {} };
+  const resources = { request: request, resources: _resources ?? {} };
 
   const Main = () => (
     <SSRRegister context={ssr_context}>
       <ServerResourceContext.Provider value={resources}>
         <I18nProvider preferredLocale={preferredLocale}>
-          <StaticNavigator basename={basename} location={req.originalUrl} context={context}>
+          <StaticNavigator basename={basename} location={request.originalUrl} context={context}>
             <SafeAreaProvider><App /></SafeAreaProvider>
           </StaticNavigator>
         </I18nProvider>
@@ -65,49 +66,51 @@ export const renderToHTML = async (App, {
   AppRegistry.registerComponent('App', () => Main);
   const { element, getStyleElement } = AppRegistry.getApplication('App');
 
-  let html = ReactDOMServer.renderToString(element);
+  let body = ReactDOMServer.renderToString(element);
   while (_.some(_.values(resources.resource), x => isPromiseLike(x))) {
     resources.resource = _.fromPairs(await Promise.all(_.map(resources.resource, async (v, k) => [k, await v])));
-    html = ReactDOMServer.renderToString(element);
+    body = ReactDOMServer.renderToString(element);
   }
 
-  const css = ReactDOMServer.renderToStaticMarkup(getStyleElement());
+  const injectedStyle = ssr_context['__INJECTED_STYLE__'] ?? '';
+  const ssrData = compress(serialize({ basename, env, resources: resources.resources }))
 
-  const title = _.isString(context.title) ? `<title>${context.title}</title>` : '';
-
-  let meta_string = '';
-  if (context.meta) {
-    for (const [key, value] of Object.entries(context.meta)) {
-      meta_string += `\n<meta name="${key}" content="${value}">`;
-    }
-  }
-
-  let injectedStyle = ssr_context['__INJECTED_STYLE__'] ?? '';
-  if (injectedStyle) injectedStyle = `<style id="react-booster-ssr-styles">\n${injectedStyle}\n</style>`;
-
-  return `
+  const html = (
     <html>
       <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
-        <script src="${jsSrc}" defer></script>
-        <link rel="stylesheet" href="${cssSrc}" />
-        ${title}${meta_string}
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
+        <script src={jsSrc} defer />
+        <link rel='stylesheet' href={cssSrc} />
+        {!_.isEmpty(context.title) && <title>{context.title}</title>}
+        {_.map(context.meta, (value, key) => (
+          <meta name={key} content={value} />
+        ))}
         <style>
-        ${_.map(_.toPairs(__FONTS__), ([name, url]) => `
-          @font-face {
-            src: url(${url});
-            font-family: ${name};
-          }
-        `).join('')}
+          {_.map(_.toPairs(__FONTS__), ([name, url]) => `
+            @font-face {
+              src: url(${url});
+              font-family: ${name};
+            }
+          `).join('')}
         </style>
-        ${_.map(_.values(__FONTS__), url => `<link rel="preload" href="${url}" as="font" />`).join('\n')}
-        ${css}${injectedStyle}
+        {_.map(_.values(__FONTS__), url => (
+          <link rel='preload' href={url} as='font' />
+        ))}
+        {getStyleElement()}
+        {!_.isEmpty(injectedStyle) && <style id='react-booster-ssr-styles'>{injectedStyle}</style>}
       </head>
       <body>
-        <div id="root">${html}</div>
-        <script id="__SSR_DATA__" type="text/plain">${compress(serialize({ basename, env, resources: resources.resources }))}</script>
+        <div id='root' dangerouslySetInnerHTML={{ __html: body }} />
+        <script id='__SSR_DATA__' type='text/plain' dangerouslySetInnerHTML={{ __html: ssrData }} />
       </body>
     </html>
-  `;
+  );
+
+  const { pipe } = ReactDOMServer.renderToPipeableStream(html, {
+    onShellReady() {
+      response.setHeader('content-type', 'text/html');
+      pipe(response);
+    }
+  });
 }

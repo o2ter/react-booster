@@ -65,15 +65,16 @@ export const ReactRoute = (App: any, {
   router.get('*', async (req, res) => {
     const _preferredLocale = await preferredLocale(req);
     res.cookie('PREFERRED_LOCALE', _preferredLocale, { maxAge: 31536000 });
-    res.send(await renderToHTML(App, {
-      req,
+    await renderToHTML(App, {
+      request: req,
+      response: res,
       env,
       jsSrc,
       cssSrc,
       basename,
       preferredLocale: _preferredLocale,
       resources: await resources?.(req),
-    }));
+    });
   });
 
   return router;

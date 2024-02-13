@@ -36,7 +36,7 @@ import { deserialize } from 'proto.io/dist/client';
 const __SSR_DATA__: any = typeof document !== 'undefined' ? (() => {
   const element: any = document.getElementById('__SSR_DATA__');
   element.remove();
-  return deserialize(decompress(element.text));
+  return deserialize(decompress(element.text.trim()));
 })() : {};
 
 const {
