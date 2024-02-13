@@ -84,7 +84,7 @@ export const renderToHTML = async (App, {
         <link rel='stylesheet' href={cssSrc} />
         {!_.isEmpty(context.title) && <title>{context.title}</title>}
         {_.map(context.meta, (value, key) => (
-          <meta name={key} content={value} />
+          <meta key={key} name={key} content={value} />
         ))}
         <style>
           {_.map(_.toPairs(__FONTS__), ([name, url]) => `
@@ -95,7 +95,7 @@ export const renderToHTML = async (App, {
           `).join('')}
         </style>
         {_.map(_.values(__FONTS__), url => (
-          <link rel='preload' href={url} as='font' />
+          <link key={url} rel='preload' href={url} as='font' />
         ))}
         {getStyleElement()}
         {!_.isEmpty(injectedStyle) && <style id='react-booster-ssr-styles'>{injectedStyle}</style>}
