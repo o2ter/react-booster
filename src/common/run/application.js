@@ -36,6 +36,8 @@ import {
 } from '@o2ter/react-ui';
 import { LayoutProvider } from '@o2ter/wireframe';
 
+import '@o2ter/react-ui/dist/index.web.css';
+
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
   ThemeProvider,
