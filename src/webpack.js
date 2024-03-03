@@ -93,25 +93,27 @@ module.exports = (env, argv) => {
     }
   };
 
+  const webpackOptimization = ({ server }) => ({
+    minimize: IS_PRODUCTION,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        extractComments: false,
+        terserOptions: {
+          sourceMap: false,
+          compress: true,
+          keep_classnames: server,
+          format: {
+            comments: !IS_PRODUCTION,
+          },
+        },
+      }),
+    ],
+  });
+
   const webpackConfiguration = {
     mode: IS_PRODUCTION ? 'production' : 'development',
     devtool: IS_PRODUCTION ? false : 'cheap-module-source-map',
-    optimization: {
-      minimize: IS_PRODUCTION,
-      minimizer: [
-        new TerserPlugin({
-          parallel: true,
-          extractComments: false,
-          terserOptions: {
-            sourceMap: false,
-            compress: true,
-            format: {
-              comments: !IS_PRODUCTION,
-            },
-          },
-        }),
-      ],
-    },
     experiments: {
       topLevelAwait: true,
     },
@@ -156,6 +158,7 @@ module.exports = (env, argv) => {
   return [
     ..._.map(config.client, ({ entry }, name) => ({
       ...webpackConfiguration,
+      optimization: webpackOptimization({ server: false }),
       plugins: webpackPlugins,
       entry: {
         [`${name}_bundle`]: path.resolve(__dirname, './client/index.js'),
@@ -187,6 +190,7 @@ module.exports = (env, argv) => {
     })),
     {
       ...webpackConfiguration,
+      optimization: webpackOptimization({ server: true }),
       plugins: [
         ...webpackPlugins,
         new webpack.DefinePlugin({
