@@ -27,7 +27,7 @@ import _ from 'lodash';
 import express, { Request } from 'express';
 import cookieParser from 'cookie-parser';
 import { renderToHTML } from './render';
-import { Awaitable } from 'sugax';
+import { Awaitable } from '@o2ter/utils-js';
 
 type ReactRouteOptions = {
   env: any;

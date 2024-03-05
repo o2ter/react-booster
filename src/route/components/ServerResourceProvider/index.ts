@@ -27,8 +27,8 @@ import _ from 'lodash';
 import React from 'react';
 import type { Request } from 'express';
 import { ServerResourceContext } from './context';
-import { Awaitable } from 'sugax';
 import { TSerializable } from 'proto.io/dist/client';
+import { Awaitable } from '@o2ter/utils-js';
 
 let initState: any;
 

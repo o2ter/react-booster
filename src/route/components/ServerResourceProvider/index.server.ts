@@ -27,9 +27,9 @@ import _ from 'lodash';
 import React from 'react';
 import type { Request } from 'express';
 import { ServerResourceContext } from './context';
-import { Awaitable } from 'sugax';
 import { TSerializable } from 'proto.io';
 import { isPromiseLike } from '../../utils';
+import { Awaitable } from '@o2ter/utils-js';
 
 export const useServerResource = <T extends NonNullable<TSerializable> = any>(
   key: string,
