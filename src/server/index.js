@@ -26,6 +26,7 @@
 import _ from 'lodash';
 import path from 'path';
 import express from 'express';
+import { createServer } from 'http';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import { ReactRoute } from '../route';
@@ -33,6 +34,8 @@ import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
 const app = express();
+const server = createServer(app);
+
 app.use(compression());
 app.use(cookieParser());
 
@@ -41,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
 const server_env = {};
 let __SERVER__ = {};
 try { __SERVER__ = await import('__SERVER__'); } catch { };
-if ('default' in __SERVER__) await __SERVER__.default(app, server_env);
+if ('default' in __SERVER__) await __SERVER__.default(server, app, server_env);
 
 for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {
@@ -64,5 +67,4 @@ for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
 
 const PORT = !_.isEmpty(process.env.PORT) ? parseInt(process.env.PORT) : 8080;
 
-const httpServer = require('http').createServer(app);
-httpServer.listen(PORT, () => console.info(`listening on port ${PORT}`));
+server.listen(PORT, () => console.info(`listening on port ${PORT}`));
