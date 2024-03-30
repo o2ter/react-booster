@@ -69,7 +69,7 @@ module.exports = (env, argv) => {
     ].filter(Boolean),
   });
 
-  const imageLoaderConfiguration = {
+  const imageLoaderConfiguration = ({ outputFile }) => ({
     test: /\.(gif|jpe?g|a?png|svg)$/i,
     use: {
       loader: 'file-loader',
@@ -77,11 +77,12 @@ module.exports = (env, argv) => {
         name: '[name].[contenthash].[ext]',
         publicPath: '/images',
         outputPath: '/images',
+        emitFile: outputFile,
       }
     }
-  };
+  });
 
-  const fontLoaderConfiguration = {
+  const fontLoaderConfiguration = ({ outputFile }) => ({
     test: /\.ttf$/i,
     use: {
       loader: 'file-loader',
@@ -89,9 +90,10 @@ module.exports = (env, argv) => {
         name: '[name].[contenthash].[ext]',
         publicPath: '/fonts',
         outputPath: '/fonts',
+        emitFile: outputFile,
       }
     }
-  };
+  });
 
   const webpackOptimization = ({ server }) => ({
     minimize: IS_PRODUCTION,
@@ -124,9 +126,6 @@ module.exports = (env, argv) => {
         'url': 'whatwg-url',
         ...config.options?.resolve?.alias ?? {},
       },
-    },
-    output: {
-      path: path.join(config.output, 'public'),
     },
     externals: config.options?.externals,
   };
@@ -163,6 +162,9 @@ module.exports = (env, argv) => {
       entry: {
         [`${name}_bundle`]: path.resolve(__dirname, './client/index.js'),
       },
+      output: {
+        path: path.join(config.output, 'public'),
+      },
       resolve: {
         ...webpackConfiguration.resolve,
         alias: {
@@ -182,8 +184,8 @@ module.exports = (env, argv) => {
         rules: [
           babelLoaderConfiguration,
           cssLoaderConfiguration({ outputFile: true }),
-          imageLoaderConfiguration,
-          fontLoaderConfiguration,
+          imageLoaderConfiguration({ outputFile: true }),
+          fontLoaderConfiguration({ outputFile: true }),
           ...config.options?.module?.rules ?? [],
         ]
       }
@@ -203,7 +205,10 @@ module.exports = (env, argv) => {
       ],
       target: 'node',
       entry: {
-        '../server': path.resolve(__dirname, './server/index.js'),
+        server: path.resolve(__dirname, './server/index.js'),
+      },
+      output: {
+        path: config.output,
       },
       resolve: {
         ...webpackConfiguration.resolve,
@@ -227,8 +232,8 @@ module.exports = (env, argv) => {
         rules: [
           babelLoaderConfiguration,
           cssLoaderConfiguration({ outputFile: false }),
-          imageLoaderConfiguration,
-          fontLoaderConfiguration,
+          imageLoaderConfiguration({ outputFile: false }),
+          fontLoaderConfiguration({ outputFile: false }),
           ...config.options?.module?.rules ?? [],
         ]
       },
