@@ -65,6 +65,10 @@ for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
   }
 }
 
+app.use((err, req, res, next) => {
+  res.status(500).json(err instanceof Error ? { message: err.message } : err);
+});
+
 const PORT = !_.isEmpty(process.env.PORT) ? parseInt(process.env.PORT) : 8080;
 
 server.listen(PORT, () => console.info(`listening on port ${PORT}`));
