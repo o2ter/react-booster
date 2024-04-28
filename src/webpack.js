@@ -18,16 +18,6 @@ module.exports = (env, argv) => {
   const config = _.isFunction(serverConfig) ? serverConfig(env, argv) : serverConfig;
   const IS_PRODUCTION = argv.mode !== 'development';
 
-  const presetEnvOpts = (server) => server ? {
-    targets: { node: 'current' },
-  } : config.polyfills ?? {
-    exclude: [
-      '@babel/plugin-transform-regenerator',
-      '@babel/plugin-transform-async-generator-functions',
-      '@babel/plugin-transform-async-to-generator',
-    ],
-  };
-
   const babelLoaderConfiguration = ({ server }) => ({
     test: /\.(ts|tsx|m?js)?$/i,
     use: {
@@ -37,7 +27,14 @@ module.exports = (env, argv) => {
         cacheDirectory: true,
         configFile: false,
         presets: [
-          ['@babel/preset-env', presetEnvOpts(server)],
+          ['@babel/preset-env', {
+            exclude: [
+              '@babel/plugin-transform-regenerator',
+              '@babel/plugin-transform-async-generator-functions',
+              '@babel/plugin-transform-async-to-generator',
+            ],
+            ...server ? { targets: { node: 'current' } } : config.polyfills ?? {},
+          }],
           ['@babel/preset-react', {
             development: !IS_PRODUCTION,
             runtime: 'automatic',
@@ -165,7 +162,10 @@ module.exports = (env, argv) => {
       optimization: webpackOptimization({ server: false }),
       plugins: webpackPlugins,
       entry: {
-        [`${name}_bundle`]: path.resolve(__dirname, './client/index.js'),
+        [`${name}_bundle`]: [
+          'core-js/stable',
+          path.resolve(__dirname, './client/index.js'),
+        ],
       },
       output: {
         path: path.join(config.output, 'public'),
@@ -210,7 +210,10 @@ module.exports = (env, argv) => {
       ],
       target: 'node',
       entry: {
-        server: path.resolve(__dirname, './server/index.js'),
+        server: [
+          'core-js/stable',
+          path.resolve(__dirname, './server/index.js'),
+        ],
       },
       output: {
         path: config.output,
