@@ -30,6 +30,7 @@ import { flattenStyle, useTheme, _CSSNameProvider } from '@o2ter/react-ui';
 import { I18nManager } from 'react-native';
 import { useSSRRegister } from '../SSRRegister';
 import { cssCompiler } from './compiler';
+import { quillStyleGenerator } from './styles/quill';
 
 const default_css = (theme: ReturnType<typeof useTheme>) => `
 :root {
@@ -68,6 +69,10 @@ const dir_mapping = (ltr: boolean) => ({
   paddingStart: ltr ? 'paddingLeft' : 'paddingRight',
   start: ltr ? 'left' : 'right',
 });
+
+const allStyleGenerator = [
+  quillStyleGenerator,
+];
 
 const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children
@@ -111,6 +116,10 @@ const CSSStyleProvider: React.FC<React.PropsWithChildren<{}>> = ({
         }
         `;
       }
+    }
+
+    for (const generator of allStyleGenerator) {
+      css += generator(theme);
     }
 
     return [names, css];
