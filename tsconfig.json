@@ -5,6 +5,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "allowJs": true,
+    "checkJs": false,
     "maxNodeModuleJsDepth": 1,
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -12,9 +14,15 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "moduleSuffixes": [".web", ""]
+    "moduleSuffixes": [".web", ""],
+    "outDir": "dist",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
   },
-  "exclude":[
+  "exclude": [
     "**/dist/*",
     "**/node_modules/*"
   ]

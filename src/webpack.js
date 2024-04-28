@@ -18,7 +18,7 @@ module.exports = (env, argv) => {
   const config = _.isFunction(serverConfig) ? serverConfig(env, argv) : serverConfig;
   const IS_PRODUCTION = argv.mode !== 'development';
 
-  const babelLoaderConfiguration = {
+  const babelLoaderConfiguration = ({ server }) => ({
     test: /\.(ts|tsx|m?js)?$/i,
     use: {
       loader: 'babel-loader',
@@ -26,20 +26,22 @@ module.exports = (env, argv) => {
         compact: IS_PRODUCTION,
         cacheDirectory: true,
         configFile: false,
-        presets: [
-          [
-            '@babel/preset-react',
-            {
-              development: !IS_PRODUCTION,
-              runtime: 'automatic',
-            },
-          ],
+        presets: _.compact([
+          !server && ['@babel/preset-env', {
+            targets: {},
+            exclude: [
+              '@babel/plugin-transform-regenerator',
+              '@babel/plugin-transform-async-generator-functions',
+              '@babel/plugin-transform-async-to-generator',
+            ],
+          }],
+          ['@babel/preset-react', {
+            development: !IS_PRODUCTION,
+            runtime: 'automatic',
+          }],
           '@babel/preset-typescript',
-        ],
+        ]),
         plugins: [
-          '@babel/plugin-transform-runtime',
-          '@babel/plugin-syntax-dynamic-import',
-          '@babel/plugin-proposal-class-properties',
           'react-native-reanimated/plugin',
           '@loadable/babel-plugin',
         ]
@@ -48,7 +50,7 @@ module.exports = (env, argv) => {
     resolve: {
       fullySpecified: false,
     },
-  };
+  });
 
   const cssLoaderConfiguration = ({ outputFile }) => ({
     test: /\.(css|sass|scss)$/,
@@ -182,7 +184,7 @@ module.exports = (env, argv) => {
       },
       module: {
         rules: [
-          babelLoaderConfiguration,
+          babelLoaderConfiguration({ server: false }),
           cssLoaderConfiguration({ outputFile: true }),
           imageLoaderConfiguration({ outputFile: true }),
           fontLoaderConfiguration({ outputFile: true }),
@@ -230,7 +232,7 @@ module.exports = (env, argv) => {
       },
       module: {
         rules: [
-          babelLoaderConfiguration,
+          babelLoaderConfiguration({ server: true }),
           cssLoaderConfiguration({ outputFile: false }),
           imageLoaderConfiguration({ outputFile: false }),
           fontLoaderConfiguration({ outputFile: false }),
