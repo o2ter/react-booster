@@ -28,7 +28,11 @@ import { useTheme } from '@o2ter/react-ui';
 
 export const quillStyleGenerator = (theme: ReturnType<typeof useTheme>) => `
 .ql-container {
-  font-size: ${theme.fontSizes['normal']}px;
+  font-size: ${theme.fontSizes['normal'] ?? theme.root.fontSize}px;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: '${theme.fontSizes['normal'] ?? theme.root.fontSize}px';
 }
 ${_.map([1, 2, 3, 4, 5, 6], i => `
   .ql-bubble .ql-editor h${i} {
