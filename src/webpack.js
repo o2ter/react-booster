@@ -18,6 +18,16 @@ module.exports = (env, argv) => {
   const config = _.isFunction(serverConfig) ? serverConfig(env, argv) : serverConfig;
   const IS_PRODUCTION = argv.mode !== 'development';
 
+  const presetEnvOpts = (server) => server ? {
+    targets: { node: 'current' },
+  } : config.polyfills ?? {
+    exclude: [
+      '@babel/plugin-transform-regenerator',
+      '@babel/plugin-transform-async-generator-functions',
+      '@babel/plugin-transform-async-to-generator',
+    ],
+  };
+
   const babelLoaderConfiguration = ({ server }) => ({
     test: /\.(ts|tsx|m?js)?$/i,
     use: {
@@ -26,21 +36,14 @@ module.exports = (env, argv) => {
         compact: IS_PRODUCTION,
         cacheDirectory: true,
         configFile: false,
-        presets: _.compact([
-          !server && ['@babel/preset-env', {
-            targets: {},
-            exclude: [
-              '@babel/plugin-transform-regenerator',
-              '@babel/plugin-transform-async-generator-functions',
-              '@babel/plugin-transform-async-to-generator',
-            ],
-          }],
+        presets: [
+          ['@babel/preset-env', presetEnvOpts(server)],
           ['@babel/preset-react', {
             development: !IS_PRODUCTION,
             runtime: 'automatic',
           }],
           '@babel/preset-typescript',
-        ]),
+        ],
         plugins: [
           'react-native-reanimated/plugin',
           '@loadable/babel-plugin',
