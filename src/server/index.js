@@ -26,10 +26,10 @@
 import _ from 'lodash';
 import path from 'path';
 import express from 'express';
-import morgan from 'morgan';
 import { createServer } from 'http';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import { logger } from './logger';
 import { ReactRoute } from '../route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
@@ -37,8 +37,7 @@ import * as __APPLICATIONS__ from '__APPLICATIONS__';
 const app = express();
 const server = createServer(app);
 
-const format = '[:date[iso]] :method :url HTTP/:http-version :remote-addr :status :res[content-length] :response-time/:total-time ms';
-app.use(morgan(format, { stream: { write: (str) => console.info(str.trim()) } }));
+app.use(logger);
 app.use(compression());
 app.use(cookieParser());
 
