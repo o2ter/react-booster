@@ -52,10 +52,10 @@ module.exports = (env, argv) => {
     },
   });
 
-  const cssLoaderConfiguration = ({ outputFile }) => ({
+  const cssLoaderConfiguration = ({ server }) => ({
     test: /\.(css|sass|scss)$/,
     use: [
-      outputFile && MiniCssExtractPlugin.loader,
+      !server && MiniCssExtractPlugin.loader,
       'css-loader',
       {
         loader: 'postcss-loader',
@@ -71,7 +71,7 @@ module.exports = (env, argv) => {
     ].filter(Boolean),
   });
 
-  const imageLoaderConfiguration = ({ outputFile }) => ({
+  const imageLoaderConfiguration = ({ server }) => ({
     test: /\.(gif|jpe?g|a?png|svg)$/i,
     use: {
       loader: 'file-loader',
@@ -79,12 +79,12 @@ module.exports = (env, argv) => {
         name: '[name].[contenthash].[ext]',
         publicPath: '/images',
         outputPath: '/images',
-        emitFile: outputFile,
+        emitFile: !server,
       }
     }
   });
 
-  const fontLoaderConfiguration = ({ outputFile }) => ({
+  const fontLoaderConfiguration = ({ server }) => ({
     test: /\.ttf$/i,
     use: {
       loader: 'file-loader',
@@ -92,7 +92,7 @@ module.exports = (env, argv) => {
         name: '[name].[contenthash].[ext]',
         publicPath: '/fonts',
         outputPath: '/fonts',
-        emitFile: outputFile,
+        emitFile: !server,
       }
     }
   });
@@ -188,9 +188,9 @@ module.exports = (env, argv) => {
       module: {
         rules: [
           babelLoaderConfiguration({ server: false }),
-          cssLoaderConfiguration({ outputFile: true }),
-          imageLoaderConfiguration({ outputFile: true }),
-          fontLoaderConfiguration({ outputFile: true }),
+          cssLoaderConfiguration({ server: false }),
+          imageLoaderConfiguration({ server: false }),
+          fontLoaderConfiguration({ server: false }),
           ...config.options?.module?.rules ?? [],
         ]
       }
@@ -239,9 +239,9 @@ module.exports = (env, argv) => {
       module: {
         rules: [
           babelLoaderConfiguration({ server: true }),
-          cssLoaderConfiguration({ outputFile: false }),
-          imageLoaderConfiguration({ outputFile: false }),
-          fontLoaderConfiguration({ outputFile: false }),
+          cssLoaderConfiguration({ server: true }),
+          imageLoaderConfiguration({ server: true }),
+          fontLoaderConfiguration({ server: true }),
           ...config.options?.module?.rules ?? [],
         ]
       },
