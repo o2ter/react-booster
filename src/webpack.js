@@ -33,7 +33,8 @@ module.exports = (env, argv) => {
               '@babel/plugin-transform-async-generator-functions',
               '@babel/plugin-transform-async-to-generator',
             ],
-            ...server ? { targets: { node: 'current' } } : config.polyfills ?? {},
+            targets: server ? { node: 'current' } : 'defaults',
+            ...server ? {} : config.polyfills ?? {},
           }],
           ['@babel/preset-react', {
             development: !IS_PRODUCTION,
