@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 //
 
-import chalk from 'chalk';
 import morgan from 'morgan';
 
 export const logger = morgan(
@@ -39,21 +38,21 @@ export const logger = morgan(
     const totalTime = tokens['total-time'](req, res);
     const contentLength = tokens.res(req, res, 'content-length') || '-';
 
-    const _status = status >= 500 ? chalk.red(status)
-      : status >= 400 ? chalk.yellow(status)
-        : status >= 300 ? chalk.cyan(status)
-          : status >= 200 ? chalk.green(status)
-            : chalk.visible(status);
+    const color = status >= 500 ? 31
+      : status >= 400 ? 33
+        : status >= 300 ? 36
+          : status >= 200 ? 32
+            : 0;
 
     return [
-      chalk.magenta(`[${date}]`),
+      `\x1B[35m[${date}]\x1B[0m`,
       remoteAddr,
       `HTTP/${httpVersion}`,
       method,
       url,
-      _status,
+      `\x1B[${color}m${status}ms\x1B[0m`,
       `${contentLength} bytes`,
-      chalk.bold(`${totalTime}ms`),
+      `\x1B[1m${totalTime}ms\x1B[0m`,
       `${responseTime}ms`,
     ].join(' ');
   },
