@@ -24,7 +24,7 @@
 //
 
 import React from 'react';
-import type { Request } from 'express';
+import type { Request } from '@o2ter/server-js';
 
 export const ServerResourceContext = React.createContext<{
   request?: Request;

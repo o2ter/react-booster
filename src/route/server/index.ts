@@ -24,7 +24,7 @@
 //
 
 import _ from 'lodash';
-import express, { Request } from 'express';
+import { Server, Request } from '@o2ter/server-js';
 import cookieParser from 'cookie-parser';
 import { renderToHTML } from './render';
 import { Awaitable } from '@o2ter/utils-js';
@@ -59,7 +59,7 @@ export const ReactRoute = (App: any, {
   resources,
 }: ReactRouteOptions) => {
 
-  const router = express.Router();
+  const router = Server.Router();
   router.use(cookieParser() as any);
 
   router.get('*', async (req, res) => {

@@ -25,7 +25,6 @@
 
 import _ from 'lodash';
 import path from 'path';
-import express from 'express';
 import { Server } from '@o2ter/server-js';
 import { ReactRoute } from '../route';
 import application from '../common/run/application';
@@ -33,7 +32,7 @@ import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
 const app = new Server;
 
-app.express().use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
+app.use(Server.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
 const server_env = {};
 let __SERVER__ = {};
@@ -53,16 +52,16 @@ for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
     resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
   });
   if (_.isEmpty(path) || path === '/') {
-    app.express().use(route);
+    app.use(route);
   } else {
-    app.express().use(path, route);
+    app.use(path, route);
   }
 }
 
-app.express().use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   res.status(500).json(err instanceof Error ? { message: err.message } : err);
 });
 
 const PORT = !_.isEmpty(process.env.PORT) ? parseInt(process.env.PORT) : 8080;
 
-app.server().listen(PORT, () => console.info(`listening on port ${PORT}`));
+app.listen(PORT, () => console.info(`listening on port ${PORT}`));

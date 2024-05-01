@@ -1507,10 +1507,10 @@
     react-native-vector-icons ">=9.2.0"
     react-router-dom ">=6.6.2"
 
-"@o2ter/server-js@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@o2ter/server-js/-/server-js-0.0.3.tgz#74a6ab531a773be8398df5f70d33dde298e3ac2f"
-  integrity sha512-CPA9+8TU3mT0sbUXmx51MO0PeKRrNOXKgsEq045tGnobMsM4sRVvu+WMcHPZ40ss7s/z5V8npqBu5Lc7Bi+mDQ==
+"@o2ter/server-js@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@o2ter/server-js/-/server-js-0.0.4.tgz#471fe354a50feb22a57f97a10b28fbfbd2aedba1"
+  integrity sha512-9YNGJ6blwMo9WCIiTlWWVfv9eIDAI8z70Alttc/n//hG58tslTa1DL7VKlGSafAKaiLtcwCDT4wVYB/1TJ+U9A==
   dependencies:
     chalk "^5.3.0"
     compression "^1.7.4"
