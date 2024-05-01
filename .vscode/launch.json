@@ -9,7 +9,10 @@
         "<node_internals>/**"
       ],
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start:dev"]
+      "runtimeArgs": ["run", "start:dev"],
+      "env": {
+        "FORCE_COLOR": "1"
+      },
     },
     {
       "type": "node",
@@ -19,7 +22,10 @@
         "<node_internals>/**"
       ],
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start"]
+      "runtimeArgs": ["run", "start"],
+      "env": {
+        "FORCE_COLOR": "1"
+      },
     }
   ]
 }
