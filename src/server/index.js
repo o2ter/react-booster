@@ -26,27 +26,19 @@
 import _ from 'lodash';
 import path from 'path';
 import express from 'express';
-import { createServer } from 'http';
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import { logger } from './logger';
+import { Server } from '@o2ter/server-js';
 import { ReactRoute } from '../route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
-const app = express();
-const server = createServer(app);
+const app = new Server;
 
-app.use(logger);
-app.use(compression());
-app.use(cookieParser());
-
-app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
+app.express().use(express.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
 const server_env = {};
 let __SERVER__ = {};
 try { __SERVER__ = await import('__SERVER__'); } catch { };
-if ('default' in __SERVER__) await __SERVER__.default(server, app, server_env);
+if ('default' in __SERVER__) await __SERVER__.default(app, server_env);
 
 for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
   const route = ReactRoute(application(__APPLICATIONS__[name]), {
@@ -61,16 +53,16 @@ for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
     resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
   });
   if (_.isEmpty(path) || path === '/') {
-    app.use(route);
+    app.express().use(route);
   } else {
-    app.use(path, route);
+    app.express().use(path, route);
   }
 }
 
-app.use((err, req, res, next) => {
+app.express().use((err, req, res, next) => {
   res.status(500).json(err instanceof Error ? { message: err.message } : err);
 });
 
 const PORT = !_.isEmpty(process.env.PORT) ? parseInt(process.env.PORT) : 8080;
 
-server.listen(PORT, () => console.info(`listening on port ${PORT}`));
+app.server().listen(PORT, () => console.info(`listening on port ${PORT}`));
