@@ -14,7 +14,6 @@
   "plugins": ["react"],
   "rules": {
     "camelcase": "warn",
-    "complexity": ["warn", 15],
     "func-names": "off",
     "max-depth": ["warn", 3],
     "max-len": "warn",
