@@ -157,6 +157,11 @@ module.exports = (env, argv) => {
     export { ${_.keys(config.client).join(',')} };
   `);
 
+  const moduleSuffixes = {
+    client: config.moduleSuffixes?.client ?? ['.browser', '.web', ''],
+    server: config.moduleSuffixes?.server ?? ['.node', '.server', '.web', ''],
+  };
+
   return [
     ..._.map(config.client, ({ entry }, name) => ({
       ...webpackConfiguration,
@@ -179,10 +184,8 @@ module.exports = (env, argv) => {
           __THEMES__: themes,
         },
         extensions: [
-          '.web.tsx', '.web.jsx',
-          '.tsx', '.tsx',
-          '.web.ts', '.web.mjs', '.web.js',
-          '.ts', '.ts', '.mjs',
+          ...moduleSuffixes.client.flatMap(x => [`${x}.tsx`, `${x}.jsx`]),
+          ...moduleSuffixes.client.flatMap(x => [`${x}.ts`, `${x}.mjs`, `${x}.js`]),
           '...'
         ],
       },
@@ -228,12 +231,8 @@ module.exports = (env, argv) => {
           __SERVER__: server,
         },
         extensions: [
-          '.server.tsx', '.server.jsx',
-          '.web.tsx', '.web.jsx',
-          '.tsx', '.tsx',
-          '.server.ts', '.server.mjs', '.server.js',
-          '.web.ts', '.web.mjs', '.web.js',
-          '.ts', '.ts', '.mjs',
+          ...moduleSuffixes.server.flatMap(x => [`${x}.tsx`, `${x}.jsx`]),
+          ...moduleSuffixes.server.flatMap(x => [`${x}.ts`, `${x}.mjs`, `${x}.js`]),
           '...'
         ],
       },
