@@ -51,7 +51,7 @@
     "@o2ter/react-ui": "^0.0.364",
     "@o2ter/server-js": "^0.0.10",
     "@o2ter/valid.js": "^1.0.6",
-    "@o2ter/wireframe": "^0.0.58",
+    "@o2ter/wireframe": "^0.0.59",
     "@types/lodash": "^4.17.0",
     "@types/morgan": "^1.9.9",
     "@types/postcss-js": "^4.0.4",
