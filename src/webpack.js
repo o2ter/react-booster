@@ -126,7 +126,6 @@ module.exports = (env, argv) => {
       ...config.options?.resolve ?? {},
       alias: {
         'react-native$': 'react-native-web',
-        'url': 'whatwg-url',
         ...config.options?.resolve?.alias ?? {},
       },
     },
