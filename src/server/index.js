@@ -30,13 +30,14 @@ import { ReactRoute } from '../route';
 import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
-const app = new Server;
+let __SERVER__ = {};
+try { __SERVER__ = await import('__SERVER__'); } catch { };
+
+const app = 'serverOptions' in __SERVER__ ? new Server(__SERVER__.serverOptions) : new Server;
 
 app.use(Server.static(path.join(__dirname, 'public'), { cacheControl: true }));
 
 const server_env = {};
-let __SERVER__ = {};
-try { __SERVER__ = await import('__SERVER__'); } catch { };
 if ('default' in __SERVER__) await __SERVER__.default(app, server_env);
 
 for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
@@ -48,8 +49,8 @@ for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
     jsSrc: `/${name}_bundle.js`,
     cssSrc: `/css/${name}_bundle.css`,
     basename: basename ?? '/',
-    preferredLocale: 'preferredLocale' in __SERVER__ ? (req) => __SERVER__.preferredLocale(name, req) : undefined,
-    resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(name, req) : undefined,
+    preferredLocale: 'preferredLocale' in __SERVER__ ? (req) => __SERVER__.preferredLocale(app, name, req) : undefined,
+    resources: 'resources' in __SERVER__ ? (req) => __SERVER__.resources(app, name, req) : undefined,
   });
   if (_.isEmpty(path) || path === '/') {
     app.use(route);
