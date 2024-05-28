@@ -109,6 +109,7 @@ export const renderToHTML = async (App, {
 
   const { pipe } = ReactDOMServer.renderToPipeableStream(html, {
     onShellReady() {
+      response.status(context.statusCode ?? 200);
       response.setHeader('content-type', 'text/html');
       pipe(response);
     }
