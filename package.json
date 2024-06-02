@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@o2ter/i18n": "^0.0.10",
-    "@o2ter/react-ui": "^0.0.368",
+    "@o2ter/react-ui": "^0.0.369",
     "@o2ter/server-js": "^0.0.14",
     "@o2ter/valid.js": "^1.0.7",
     "@o2ter/wireframe": "^0.0.60",
