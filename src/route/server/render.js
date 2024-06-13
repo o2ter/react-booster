@@ -81,7 +81,7 @@ export const renderToHTML = async (App, {
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
         <script src={jsSrc} defer />
-        <link rel='stylesheet' href={cssSrc} />
+        <link rel='stylesheet' type='text/css' href={cssSrc} />
         {!_.isEmpty(context.title) && <title>{context.title}</title>}
         {_.map(context.meta, (value, key) => (
           <meta key={key} name={key} content={value} />
