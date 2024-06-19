@@ -25,6 +25,7 @@
 
 import _ from 'lodash';
 import React from 'react';
+import { AsyncResourceErrors } from 'sugax';
 
 import { ThemeProvider } from '../components';
 import {
@@ -40,6 +41,7 @@ import '@o2ter/react-ui/dist/index.web.css';
 
 const ProviderChain = ({ providers = [], children }) => _.reduceRight(providers, (children, Provider) => <Provider>{children}</Provider>, children);
 const appProviders = [
+  AsyncResourceErrors,
   ThemeProvider,
   AlertProvider,
   ActivityIndicatorProvider,

@@ -61,6 +61,6 @@
     "react-dom": "^18.3.1",
     "react-native-reanimated": "^3.9.0",
     "react-native-web": "^0.19.11",
-    "sugax": "^1.0.97"
+    "sugax": "^1.0.101"
   }
 }
