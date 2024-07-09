@@ -31,7 +31,11 @@ import application from '../common/run/application';
 import * as __APPLICATIONS__ from '__APPLICATIONS__';
 
 let __SERVER__ = {};
-try { __SERVER__ = await import('__SERVER__'); } catch { };
+try {
+  __SERVER__ = await import('__SERVER__');
+} catch(e) {
+  console.error(e);
+};
 
 const app = 'serverOptions' in __SERVER__ ? new Server(__SERVER__.serverOptions) : new Server;
 
