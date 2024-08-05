@@ -241,6 +241,10 @@ module.exports = (env, argv) => {
           cssLoaderConfiguration({ server: true }),
           imageLoaderConfiguration({ server: true }),
           fontLoaderConfiguration({ server: true }),
+          {
+            test: /\.node$/,
+            loader: "node-loader",
+          },
           ...config.options?.module?.rules ?? [],
         ]
       },
