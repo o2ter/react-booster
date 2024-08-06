@@ -243,7 +243,12 @@ module.exports = (env, argv) => {
           fontLoaderConfiguration({ server: true }),
           {
             test: /\.node$/,
-            loader: "node-loader",
+            use: {
+              loader: 'node-loader',
+              options: {
+                name: '[name].[contenthash].[ext]',
+              }
+            }
           },
           ...config.options?.module?.rules ?? [],
         ]
