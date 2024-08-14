@@ -32,5 +32,8 @@ node_modules
 # build products
 dist
 
+# Local .env
+.env.local
+
 # Emacs
 *~
