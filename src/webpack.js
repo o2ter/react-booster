@@ -137,6 +137,7 @@ module.exports = (env, argv) => {
     new webpack.DefinePlugin({ __DEV__: JSON.stringify(!IS_PRODUCTION) }),
     new LoadablePlugin({ outputAsset: false }),
     new Dotenv({ path: path.join(process.cwd(), '.env') }),
+    new Dotenv({ path: path.join(process.cwd(), '.env.local') }),
     new webpack.ProvidePlugin({
       _: 'lodash',
       React: 'react',
