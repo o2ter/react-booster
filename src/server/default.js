@@ -23,4 +23,21 @@
 //  THE SOFTWARE.
 //
 
+import { Server } from '@o2ter/server-js';
+
+/** @type {Server.Options} */
+export const serverOptions = {
+  http: 'v1',
+  express: {
+    cors: {
+      credentials: true,
+      origin: true,
+    },
+    rateLimit: {
+      windowMs: 1000,
+      limit: 1000,
+    },
+  },
+};
+
 export default () => {};
