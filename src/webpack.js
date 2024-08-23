@@ -204,6 +204,7 @@ module.exports = (env, argv) => {
       optimization: webpackOptimization({ server: true }),
       plugins: [
         ...webpackPlugins,
+        ...config.options?.server?.plugins ?? [],
         new webpack.DefinePlugin({
           __applications__: JSON.stringify(_.mapValues(config.client, x => ({
             path: x.uri,
@@ -252,6 +253,7 @@ module.exports = (env, argv) => {
             }
           },
           ...config.options?.module?.rules ?? [],
+          ...config.options?.server?.module?.rules ?? [],
         ]
       },
       performance: {
