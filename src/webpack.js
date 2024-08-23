@@ -10,6 +10,7 @@ const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const serverConfig = require(path.resolve(process.cwd(), 'server.config.js'));
 
@@ -202,9 +203,10 @@ module.exports = (env, argv) => {
     {
       ...webpackConfiguration,
       optimization: webpackOptimization({ server: true }),
-      plugins: [
+      plugins: _.compact([
         ...webpackPlugins,
         ...config.options?.server?.plugins ?? [],
+        config.serverAssets && new CopyPlugin({ patterns: config.serverAssets }),
         new webpack.DefinePlugin({
           __applications__: JSON.stringify(_.mapValues(config.client, x => ({
             path: x.uri,
@@ -212,7 +214,7 @@ module.exports = (env, argv) => {
             env: x.env ?? {},
           }))),
         }),
-      ],
+      ]),
       target: 'node',
       entry: {
         server: [
