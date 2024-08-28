@@ -154,7 +154,7 @@ module.exports = (env, argv) => {
   const applications = path.resolve(tempDir, `applications-${random}.js`);
 
   fs.writeFileSync(applications, `
-    ${_.map(config.client, ({ entry }, name) => `import ${name} from '${path.resolve(process.cwd(), entry)}';`).join('\n')}
+    ${_.map(config.client, ({ entry }, name) => `import * as ${name} from '${path.resolve(process.cwd(), entry)}';`).join('\n')}
     export { ${_.keys(config.client).join(',')} };
   `);
 

@@ -49,6 +49,14 @@ const appProviders = [
   ModalProvider,
   OffcanvasProvider,
   LayoutProvider,
-]
+];
 
-export default (App) => () => <ProviderChain providers={appProviders}><App /></ProviderChain>;
+const DefaultRoot = ({ children }) => (
+  <>{children}</>
+);
+
+export default (App, Root = DefaultRoot) => () => (
+  <Root>
+    <ProviderChain providers={appProviders}><App /></ProviderChain>
+  </Root>
+);

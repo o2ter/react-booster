@@ -45,7 +45,8 @@ const server_env = {};
 if ('default' in __SERVER__) await __SERVER__.default(app, server_env);
 
 for (const [name, { path, basename, env }] of _.toPairs(__applications__)) {
-  const route = ReactRoute(application(__APPLICATIONS__[name]), {
+  const { default: App, root: Root } = __APPLICATIONS__[name];
+  const route = ReactRoute(application(App, Root), {
     env: {
       ...server_env,
       ...env,

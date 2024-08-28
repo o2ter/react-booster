@@ -24,6 +24,8 @@
 //
 
 import run from '../common/run';
-import __APPLICATION__ from '__APPLICATION__';
+import * as __APPLICATION__ from '__APPLICATION__';
 
-run(__APPLICATION__);
+const { default: App, root: Root } = __APPLICATION__;
+
+run(App, Root);

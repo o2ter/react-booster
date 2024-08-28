@@ -26,4 +26,4 @@
 import application from './application';
 import { runApplication } from '../../route/client';
 
-export default (App) => runApplication(application(App));
+export default (App, Root) => runApplication(application(App, Root));
