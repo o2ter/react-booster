@@ -28,6 +28,7 @@ module.exports = (env, argv) => {
         cacheDirectory: true,
         configFile: false,
         presets: [
+          '@babel/preset-flow',
           ['@babel/preset-env', {
             exclude: [
               '@babel/plugin-transform-regenerator',
