@@ -65,6 +65,6 @@
     "react-native-reanimated": "^3.9.0",
     "react-native-web": "^0.19.11",
     "react-router-dom": "^6.27.0",
-    "sugax": "^1.0.104"
+    "sugax": "^1.0.105"
   }
 }
