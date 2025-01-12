@@ -53,7 +53,7 @@
     "@o2ter/i18n": "^0.0.10",
     "@o2ter/react-ui": "^0.0.382",
     "@o2ter/server-js": "^0.0.19",
-    "@o2ter/valid.js": "^1.0.9",
+    "@o2ter/valid.js": "^1.0.10",
     "@o2ter/wireframe": "^0.0.61",
     "@types/lodash": "^4.17.13",
     "@types/postcss-js": "^4.0.4",
