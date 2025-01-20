@@ -25,7 +25,7 @@
     "@loadable/babel-plugin": "^5.16.1",
     "@loadable/component": "^5.16.4",
     "@loadable/webpack-plugin": "^5.15.2",
-    "@o2ter/utils-js": "^0.0.12",
+    "@o2ter/utils-js": "^0.0.13",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
     "buffer": "^6.0.3",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "@o2ter/i18n": "^0.0.10",
     "@o2ter/react-ui": "^0.0.397",
-    "@o2ter/server-js": "^0.0.19",
+    "@o2ter/server-js": "^0.0.20",
     "@o2ter/valid.js": "^1.0.11",
     "@o2ter/wireframe": "^0.0.61",
     "@types/lodash": "^4.17.13",
