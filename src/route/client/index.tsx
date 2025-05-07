@@ -31,7 +31,7 @@ import { SafeAreaProvider } from '../safeArea';
 import { ServerResourceContext } from '../components/ServerResourceProvider/context';
 
 import { decompress } from '../minify/decompress';
-import { deserialize } from 'proto.io/dist/client';
+import { deserialize } from 'proto.io/client';
 
 const __SSR_DATA__: any = typeof document !== 'undefined' ? (() => {
   const element: any = document.getElementById('__SSR_DATA__');

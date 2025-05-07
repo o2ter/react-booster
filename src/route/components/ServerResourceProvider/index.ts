@@ -27,7 +27,7 @@ import _ from 'lodash';
 import React from 'react';
 import type { Request } from '@o2ter/server-js';
 import { ServerResourceContext } from './context';
-import { TSerializable } from 'proto.io/dist/client';
+import { TSerializable } from 'proto.io/client';
 import { Awaitable } from '@o2ter/utils-js';
 
 let initState: any;
