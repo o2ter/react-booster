@@ -62,7 +62,7 @@ export const ReactRoute = (App: any, {
   const router = Server.Router();
   router.use(cookieParser() as any);
 
-  router.get('*', async (req, res) => {
+  router.get('*path', async (req, res) => {
     const _preferredLocale = await preferredLocale(req);
     res.cookie('PREFERRED_LOCALE', _preferredLocale, { maxAge: 31536000 });
     await renderToHTML(App, {
